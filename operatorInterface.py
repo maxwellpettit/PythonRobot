@@ -4,22 +4,27 @@ from xboxController import XboxController
 
 class OperatorInterface():
 
-    controller = XboxController(
-        controllerCallBack = handleInput,
-        joystickNo = 0,
-        deadzone = 0.1,
-        invertYAxis = True
-    )
+    left = 0
+    right = 0
 
     def __init__(self):
         print("OI Init")
+
+        # Setup xbox controller with callbacks
+        self.controller = XboxController(
+            controllerCallBack = self.handleInput,
+            joystickNo = 0,
+            deadzone = 0.2,
+            invertYAxis = True
+        )
+
         self.controller.start()
 
     def getLeft(self):
         return self.controller.LTHUMBY
 
     def getRight(self):
-        return 0.0
+        return self.controller.RTHUMBY
 
     # Xbox Control Ids
     # LTHUMBX = 0
@@ -47,3 +52,4 @@ class OperatorInterface():
     def stop(self):
         print("OI Stop")
         self.controller.stop()
+        #self.proc.kill()

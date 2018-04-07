@@ -5,7 +5,7 @@ import time
 
 class RRB3:
 
-    MOTOR_DELAY = 0.01
+    MOTOR_DELAY = 0.1
 
     RIGHT_PWM_PIN = 14
     RIGHT_1_PIN = 10
@@ -128,9 +128,9 @@ class RRB3:
 
     def get_distance_in(self):
         self._send_trigger_pulse()
-        GPIO.wait_for_edge(self.ECHO_PIN, GPIO.RISING, timeout=500)
+        self._wait_for_echo(True, 10000)
         start = time.time()
-        GPIO.wait_for_edge(self.ECHO_PIN, GPIO.FALLING, timeout=500)
+        self._wait_for_echo(False, 10000)
         finish = time.time()
         pulse_len = finish - start
         distance_in = pulse_len / 0.000148
