@@ -34,10 +34,9 @@ class Drive():
         if (self.driveMode == self.MANUAL):
             self.tankDrive(self.oi.getLeft(), self.oi.getRight())
         elif (self.driveMode == self.AUTO):
-            if (self.pid):
-                setpoint = self.pid.calculate(self.autoTarget, self.board.get_distance_in(), datetime.datetime.now())
-                self.leftSetpoint = setpoint
-                self.rightSetpoint = setpoint
+            setpoint = self.pid.calculate(self.autoTarget, self.board.get_distance_in(), datetime.datetime.now())
+            self.leftSetpoint = setpoint
+            self.rightSetpoint = setpoint
             self.tankDrive(self.leftSetpoint, self.rightSetpoint)
 
     def tankDrive(self, left, right):
