@@ -5,8 +5,6 @@ from xboxController import XboxController
 class OperatorInterface():
 
     def __init__(self):
-        print("OI Init")
-
         # Setup xbox controller with callbacks
         self.controller = XboxController(
             controllerCallBack = self.handleInput,

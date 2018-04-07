@@ -32,9 +32,11 @@ class Robot():
             try:
                 self.update()
 
-                print(datetime.datetime.now())
                 next = next + self.PERIODIC_DELAY
-                time.sleep(max(0, next - time.time()))
+                delay = max(0, next - time.time())
+                if (delay == 0):
+                    print("--------------THRASH--------------")
+                time.sleep(delay)
             except:
                 print("Exception in Periodic")
                 traceback.print_exc()

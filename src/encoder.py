@@ -9,7 +9,6 @@ class Encoder():
 
     def __init__(self, pin):
         self.pin = pin
-        print("Encoder Init " + str(pin))
         GPIO.setmode(GPIO.BCM)
         GPIO.setup(pin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
         GPIO.add_event_detect(pin, GPIO.FALLING, callback=self.countTicks, bouncetime=50)
