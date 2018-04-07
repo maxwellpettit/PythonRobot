@@ -28,13 +28,13 @@ class Drive():
 
     def update(self):
         print("Drive Update")
-        #distIn = self.board.get_distance_in()
-        #print("Distance =" + str(distIn) + " inches")
 
         if (self.driveMode == self.MANUAL):
             self.tankDrive(self.oi.getLeft(), self.oi.getRight())
         elif (self.driveMode == self.AUTO):
-            setpoint = self.pid.calculate(self.autoTarget, self.board.get_distance_in(), datetime.datetime.now())
+            distIn = self.board.get_distance_in()
+            print("Distance =" + str(distIn) + " inches")
+            setpoint = self.pid.calculate(self.autoTarget, distIn, datetime.datetime.now())
             self.leftSetpoint = setpoint
             self.rightSetpoint = setpoint
             self.tankDrive(self.leftSetpoint, self.rightSetpoint)
