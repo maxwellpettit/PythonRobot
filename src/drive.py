@@ -14,6 +14,7 @@ class Drive():
     driveMode = MANUAL
     BATTERY_VOLTS = 9
     MOTOR_VOLTS = 6
+    DEADBAND = 0.2
 
     leftSetpoint = 0
     rightSetpoint = 0
@@ -37,9 +38,15 @@ class Drive():
 
     def tankDrive(self, left, right):
         print("Tank Drive (" + str(left) + ", " + str(right) + ")")
-        self.board.set_motors(abs(left), int(left >= 0), abs(right), int(right >= 0))
+        self.board.set_motors(self.evalDeadband(left), int(left >= 0), self.evalDeadband(right), int(right >= 0))
         self.leftEncoder.setDirection(left)
         self.rightEncoder.setDirection(right)
+
+    def evalDeadband(self, output):
+        if (output == 0):
+             return 0
+        else:
+             return max(abs(output), self.DEADBAND)
 
     def calculateAuto(self):
             distIn = self.board.get_distance_in()

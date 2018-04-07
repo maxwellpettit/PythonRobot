@@ -3,10 +3,10 @@
 from pidController import PidController
 
 class ApproachCommand():
-    
+
     DISTANCE_KP = 0.1
     DISTANCE_KI = 0
-    DISTANCE_KD = 0.005
+    DISTANCE_KD = 0.001
 
     def __init__(self, drive, distance):
         self.drive = drive
