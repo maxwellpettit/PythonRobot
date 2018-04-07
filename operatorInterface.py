@@ -4,9 +4,6 @@ from xboxController import XboxController
 
 class OperatorInterface():
 
-    left = 0
-    right = 0
-
     def __init__(self):
         print("OI Init")
 
@@ -52,4 +49,3 @@ class OperatorInterface():
     def stop(self):
         print("OI Stop")
         self.controller.stop()
-        #self.proc.kill()
