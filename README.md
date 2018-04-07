@@ -1,6 +1,6 @@
 # PythonRobot
 
-### Python Project for Raspberry Pi 3B using the Monk Makes RasPiRobot Board V3 
+### Python Robot Project for Raspberry Pi 3B using the Monk Makes RasPiRobot Board V3 
 
 https://www.monkmakes.com/rrb3/
 
