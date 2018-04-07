@@ -3,16 +3,25 @@
 import datetime, threading, time, traceback
 from drive import Drive
 from operatorInterface import OperatorInterface
+from pidController import PidController
 
 class Robot():
 
     PERIODIC_DELAY = 0.1
+
+    DISTANCE_KP = 0.1
+    DISTANCE_KI = 0
+    DISTANCE_KD = 0
 
     stopped = False
 
     def __init__(self):
         self.oi = OperatorInterface()
         self.drive = Drive(self.oi)
+
+        # Test distance PID
+        pid = PidController(self.DISTANCE_KP, self.DISTANCE_KI, self.DISTANCE_KD)
+        self.drive.setAutoMode(20, pid)
 
     def update(self):
         self.drive.update()
