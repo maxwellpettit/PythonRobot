@@ -23,6 +23,9 @@ class OperatorInterface():
     def getRight(self):
         return self.controller.RTHUMBY
 
+    def setXCommand(self, command):
+        self.xCommand = command
+
     # Xbox Control Ids
     # LTHUMBX = 0
     # LTHUMBY = 1
@@ -45,6 +48,7 @@ class OperatorInterface():
     def handleInput(self, controlId, value):
         if controlId == 8:
             print("X Button")
+            self.xCommand.run()
 
     def stop(self):
         print("OI Stop")
