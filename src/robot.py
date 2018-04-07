@@ -11,7 +11,7 @@ class Robot():
 
     DISTANCE_KP = 0.1
     DISTANCE_KI = 0
-    DISTANCE_KD = 0
+    DISTANCE_KD = 0.005
 
     stopped = False
 

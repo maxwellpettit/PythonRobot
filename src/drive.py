@@ -1,6 +1,6 @@
 #!/bin/python
 
-import datetime
+import time
 from rrb3 import RRB3
 from operatorInterface import OperatorInterface
 from encoder import Encoder
@@ -32,11 +32,7 @@ class Drive():
         if (self.driveMode == self.MANUAL):
             self.tankDrive(self.oi.getLeft(), self.oi.getRight())
         elif (self.driveMode == self.AUTO):
-            distIn = self.board.get_distance_in()
-            print("Distance =" + str(distIn) + " inches")
-            setpoint = self.pid.calculate(self.autoTarget, distIn, datetime.datetime.now())
-            self.leftSetpoint = setpoint
-            self.rightSetpoint = setpoint
+            self.calculateAuto()
             self.tankDrive(self.leftSetpoint, self.rightSetpoint)
 
     def tankDrive(self, left, right):
@@ -45,11 +41,19 @@ class Drive():
         self.leftEncoder.setDirection(left)
         self.rightEncoder.setDirection(right)
 
+    def calculateAuto(self):
+            distIn = self.board.get_distance_in()
+            print("Distance = " + str(distIn) + " inches")
+            setpoint = self.pid.calculate(self.autoTarget, distIn, time.time())
+            self.leftSetpoint = setpoint
+            self.rightSetpoint = setpoint
+            if (self.pid.done):
+                self.driveMode = self.MANUAL
+
     def setAutoMode(self, target, pid):
         self.autoTarget = target
         self.pid = pid
         self.driveMode = self.AUTO
-        self.oi.stop
 
     def stop(self):
         print("Drive Stop")
