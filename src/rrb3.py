@@ -5,7 +5,7 @@ import time
 
 class RRB3:
 
-    MOTOR_DELAY = 0.1
+    MOTOR_DELAY = 0.05
 
     RIGHT_PWM_PIN = 14
     RIGHT_1_PIN = 10

@@ -18,7 +18,6 @@ class Robot():
         xCommand = ApproachCommand(self.drive, 20)
         self.oi.setXCommand(xCommand)
 
-
     def update(self):
         self.drive.update()
 
