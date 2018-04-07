@@ -1,14 +1,15 @@
 #!/bin/python
 
+import datetime
 from rrb3 import RRB3
 from operatorInterface import OperatorInterface
 from encoder import Encoder
 
 class Drive():
 
-    AUTO = 0
-    PROFILE = 1
-    MANUAL = 2
+    MANUAL = 0
+    AUTO = 1
+    PROFILE = 2
 
     driveMode = MANUAL
     BATTERY_VOLTS = 9
@@ -32,8 +33,11 @@ class Drive():
 
         if (self.driveMode == self.MANUAL):
             self.tankDrive(self.oi.getLeft(), self.oi.getRight())
-            #self.tankDrive(0, 0)
         elif (self.driveMode == self.AUTO):
+            if (self.pid):
+                setpoint = self.pid.calculate(self.autoTarget, self.board.get_distance_in(), datetime.datetime.now())
+                self.leftSetpoint = setpoint
+                self.rightSetpoint = setpoint
             self.tankDrive(self.leftSetpoint, self.rightSetpoint)
 
     def tankDrive(self, left, right):
@@ -41,6 +45,12 @@ class Drive():
         self.board.set_motors(abs(left), int(left >= 0), abs(right), int(right >= 0))
         self.leftEncoder.setDirection(left)
         self.rightEncoder.setDirection(right)
+
+    def setAutoMode(self, target, pid):
+        self.autoTarget = target
+        self.pid = pid
+        self.driveMode = self.AUTO
+        self.oi.stop
 
     def stop(self):
         print("Drive Stop")
