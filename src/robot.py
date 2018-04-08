@@ -3,10 +3,12 @@
 import datetime, threading, time, traceback
 from drive import Drive
 from operatorInterface import OperatorInterface
-from approachCommand import ApproachCommand 
+from approachCommand import ApproachCommand
+from stopCommand import StopCommand
 
 class Robot():
 
+    # 100 ms update loop (stable)
     PERIODIC_DELAY = 0.1
 
     stopped = False
@@ -15,8 +17,11 @@ class Robot():
         self.oi = OperatorInterface()
         self.drive = Drive(self.oi)
 
-        xCommand = ApproachCommand(self.drive, 20)
+        xCommand = ApproachCommand(self.drive, 12)
         self.oi.setXCommand(xCommand)
+
+        stopCommand = StopCommand(self)
+        self.oi.setBCommand(stopCommand)
 
     def update(self):
         self.drive.update()

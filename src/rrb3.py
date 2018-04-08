@@ -128,9 +128,9 @@ class RRB3:
 
     def get_distance_in(self):
         self._send_trigger_pulse()
-        self._wait_for_echo(True, 10000)
+        self._wait_for_echo(True, 8000)
         start = time.time()
-        self._wait_for_echo(False, 10000)
+        self._wait_for_echo(False, 8000)
         finish = time.time()
         pulse_len = finish - start
         distance_in = pulse_len / 0.000148

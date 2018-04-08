@@ -6,11 +6,12 @@ class PidController():
 
     MAX_OUTPUT = 1
     MIN_OUTPUT = -1
-    THRESHOLD = 0.02
+    THRESHOLD = 0.01
 
     kP = 0
     kI = 0
     kD = 0
+    sign = 1
 
     lastTime = 0
     lastError = None
@@ -18,10 +19,12 @@ class PidController():
 
     done = False
 
-    def __init__(self, kP, kI, kD):
+    def __init__(self, kP, kI, kD, flipSign):
         self.kP = kP
         self.kI = kI
         self.kD = kD
+        if (flipSign):
+            self.sign = -1
         self.lastTime = time.time()
 
     def calculate(self, target, input, time):
@@ -31,14 +34,14 @@ class PidController():
         maxRange = target * (1 + self.THRESHOLD)
 
         if (not self.done and (input < minRange or input > maxRange)):
-            error = input - target
+            error = target - input
             dT = time - self.lastTime
             errorDeriv = 0
             if (self.lastError != None):
-                errorDeriv = (self.lastError - error) / dT
+                errorDeriv = (error - self.lastError) / dT
             self.errorIntegral += error * dT
 
-            output = self.kP * error + self.kI * self.errorIntegral + self.kD * errorDeriv
+            output = self.sign * (self.kP * error + self.kI * self.errorIntegral + self.kD * errorDeriv)
             output = self.clamp(output)
 
             self.lastTime = time

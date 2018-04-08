@@ -24,6 +24,9 @@ class OperatorInterface():
     def setXCommand(self, command):
         self.xCommand = command
 
+    def setBCommand(self, command):
+        self.bCommand = command
+
     # Xbox Control Ids
     # LTHUMBX = 0
     # LTHUMBY = 1
@@ -44,9 +47,12 @@ class OperatorInterface():
     # RIGHTTHUMB = 16
     # DPAD = 17
     def handleInput(self, controlId, value):
-        if controlId == 8:
-            print("X Button")
+        if (controlId == 8 and value == 1):
+            print("X Button - " + str(value))
             self.xCommand.run()
+        if (controlId == 7 and value == 1):
+            print("B Button - " + str(value))
+            self.bCommand.run()
 
     def stop(self):
         print("OI Stop")
