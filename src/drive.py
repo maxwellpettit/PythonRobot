@@ -7,14 +7,16 @@ from encoder import Encoder
 
 class Drive():
 
+    BATTERY_VOLTS = 9
+    MOTOR_VOLTS = 6
+
+    DEADBAND = 0.2
+
     MANUAL = 0
     AUTO = 1
     PROFILE = 2
 
     driveMode = MANUAL
-    BATTERY_VOLTS = 9
-    MOTOR_VOLTS = 6
-    DEADBAND = 0.2
 
     leftSetpoint = 0
     rightSetpoint = 0
