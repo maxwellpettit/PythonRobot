@@ -1,9 +1,8 @@
 #!/bin/python
 
 import time
-from rrb3 import RRB3
+from hardware import RRB3, Encoder
 from operatorInterface import OperatorInterface
-from encoder import Encoder
 
 class Drive():
 

@@ -1,6 +1,6 @@
 #!/bin/python
 
-from pidController import PidController
+from util import PidController
 
 class ApproachCommand():
 

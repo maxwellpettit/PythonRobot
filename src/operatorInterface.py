@@ -1,6 +1,6 @@
 #!/bin/python
 
-from xboxController import XboxController
+from hardware import XboxController
 
 class OperatorInterface():
 

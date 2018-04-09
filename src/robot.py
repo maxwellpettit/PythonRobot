@@ -3,8 +3,7 @@
 import datetime, threading, time, traceback
 from drive import Drive
 from operatorInterface import OperatorInterface
-from approachCommand import ApproachCommand
-from stopCommand import StopCommand
+from commands import ApproachCommand,StopCommand
 
 class Robot():
 
