@@ -29,3 +29,5 @@ https://www.monkmakes.com/pi-rover/
 https://github.com/martinohanlon/XboxController
 
 https://github.com/simonmonk/raspirobotboard3
+
+https://github.com/Tijndagamer/mpu6050
