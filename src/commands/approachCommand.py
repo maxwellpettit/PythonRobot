@@ -6,7 +6,7 @@ class ApproachCommand():
 
     def __init__(self, drive, distance):
         self.drive = drive
-        self.follower = SonicFollower(distance)
+        self.distance = distance
 
     def run(self):
-        self.drive.setSonicFollower(self.follower)
+        self.drive.setSonicFollower(SonicFollower(self.distance))
