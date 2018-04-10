@@ -64,6 +64,7 @@ def main():
 
     except:
         print("Stopped Via Unknown Exception")
+        traceback.print_exc()
         robot.stop()
 
 if __name__ == '__main__':

@@ -4,8 +4,6 @@ import time
 
 class PidController():
 
-    MAX_OUTPUT = 1
-    MIN_OUTPUT = -1
     THRESHOLD = 0.01
 
     kP = 0
@@ -19,43 +17,36 @@ class PidController():
 
     done = False
 
-    def __init__(self, kP, kI, kD, flipSign):
+    def __init__(self, kP, kI, kD, flipSign, autoComplete = True):
         self.kP = kP
         self.kI = kI
         self.kD = kD
         if (flipSign):
             self.sign = -1
+        self.autoComplete = autoComplete
         self.lastTime = time.time()
 
-    def calculate(self, target, input, time):
+    def calculate(self, target, input, dOffset = 0):
         output = 0
 
+        t = time.time()
         minRange = target * (1 - self.THRESHOLD)
         maxRange = target * (1 + self.THRESHOLD)
 
-        if (not self.done and (input < minRange or input > maxRange)):
+        if (not self.autoComplete or (not self.done and (input < minRange or input > maxRange))):
             error = target - input
-            dT = time - self.lastTime
+            dT = t - self.lastTime
             errorDeriv = 0
             if (self.lastError != None):
                 errorDeriv = (error - self.lastError) / dT
             self.errorIntegral += error * dT
 
-            output = self.sign * (self.kP * error + self.kI * self.errorIntegral + self.kD * errorDeriv)
-            output = self.clamp(output)
+            output = self.sign * (self.kP * error + self.kI * self.errorIntegral + self.kD * (errorDeriv - dOffset))
 
-            self.lastTime = time
+            self.lastTime = t
             self.lastError = error
-        else:
+        elif (self.autoComplete):
             self.done = True
             print("PID DONE!")
 
         return output
-
-    def clamp(self, output):
-        if (output > self.MAX_OUTPUT):
-            return self.MAX_OUTPUT
-        elif (output < self.MIN_OUTPUT):
-            return self.MIN_OUTPUT
-        else:
-            return output
