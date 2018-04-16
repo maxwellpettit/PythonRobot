@@ -37,9 +37,9 @@ class Drive():
         #self.z += gyro_data["z"]
         #print("Gyro: " + str(self.x) + ", " + str(self.y) + ", " + str(self.z))
         if (self.driveMode == self.MANUAL):
-            leftDistance = self.leftEncoder.getInches()
-            rightDistance = self.rightEncoder.getInches()
-            print("Distance = (" + str(leftDistance) + ", " + str(rightDistance) + ") inches")
+            #leftDistance = self.leftEncoder.getInches()
+            #rightDistance = self.rightEncoder.getInches()
+            #print("Distance = (" + str(leftDistance) + ", " + str(rightDistance) + ") inches")
             self.tankDrive(self.oi.getLeft(), self.oi.getRight())
         elif (self.driveMode == self.SONIC):
             output = self.calculateSonic()

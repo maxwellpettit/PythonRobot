@@ -22,7 +22,7 @@ class Robot():
         stopCommand = StopCommand(self)
         self.oi.setBCommand(stopCommand)
 
-        aCommand = EncoderCommand(self.drive, 12)
+        aCommand = EncoderCommand(self.drive, 24)
         self.oi.setACommand(aCommand)
 
     def update(self):

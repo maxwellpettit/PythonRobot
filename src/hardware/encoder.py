@@ -15,7 +15,7 @@ class Encoder():
         self.pin = pin
         GPIO.setmode(GPIO.BCM)
         GPIO.setup(pin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-        GPIO.add_event_detect(pin, GPIO.FALLING, callback=self.countTicks, bouncetime=10)
+        GPIO.add_event_detect(pin, GPIO.FALLING, callback=self.countTicks, bouncetime=80)
 
     def countTicks(self, value):
         self.count += self.direction
