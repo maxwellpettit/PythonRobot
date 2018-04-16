@@ -4,9 +4,9 @@ from util import PidController
 
 class SonicFollower():
 
-    DISTANCE_KP = 0.15
+    DISTANCE_KP = 0.2
     DISTANCE_KI = 0
-    DISTANCE_KD = 0.005
+    DISTANCE_KD = 0.01
 
     done = False
 
