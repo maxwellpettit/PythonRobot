@@ -14,7 +14,8 @@ class Drive():
 
     MANUAL = 0
     SONIC = 1
-    PROFILE = 2
+    ENCODER = 2
+    PROFILE = 3
 
     driveMode = MANUAL
 
@@ -36,10 +37,16 @@ class Drive():
         #self.z += gyro_data["z"]
         #print("Gyro: " + str(self.x) + ", " + str(self.y) + ", " + str(self.z))
         if (self.driveMode == self.MANUAL):
+            leftDistance = self.leftEncoder.getInches()
+            rightDistance = self.rightEncoder.getInches()
+            print("Distance = (" + str(leftDistance) + ", " + str(rightDistance) + ") inches")
             self.tankDrive(self.oi.getLeft(), self.oi.getRight())
         elif (self.driveMode == self.SONIC):
             output = self.calculateSonic()
             self.tankDrive(output, output)
+        elif (self.driveMode == self.ENCODER):
+            left, right = self.calculateEncoder()
+            self.tankDrive(left, right)
 
     def setSonicFollower(self, follower):
         self.driveMode = self.SONIC
@@ -52,6 +59,21 @@ class Drive():
         if (self.follower.done):
             self.driveMode = self.MANUAL
         return output
+
+    def setEncoderFollower(self, follower):
+        self.leftEncoder.reset()
+        self.rightEncoder.reset()
+        self.driveMode = self.ENCODER
+        self.follower = follower
+
+    def calculateEncoder(self):
+        leftDistance = self.leftEncoder.getInches()
+        rightDistance = self.rightEncoder.getInches()
+        print("Distance = (" + str(leftDistance) + ", " + str(rightDistance) + ") inches")
+        leftOutput, rightOutput = self.follower.calculate(leftDistance, rightDistance)
+        if (self.follower.done):
+            self.driveMode = self.MANUAL
+        return leftOutput, rightOutput
 
     def tankDrive(self, left, right):
         self.board.set_motors(self.constrain(left), int(left >= 0), self.constrain(right), int(right >= 0))

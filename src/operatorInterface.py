@@ -21,6 +21,9 @@ class OperatorInterface():
     def getRight(self):
         return self.controller.RTHUMBY
 
+    def setACommand(self, command):
+        self.aCommand = command
+
     def setXCommand(self, command):
         self.xCommand = command
 
@@ -53,6 +56,9 @@ class OperatorInterface():
         if (controlId == 7 and value == 1):
             print("B Button - " + str(value))
             self.bCommand.run()
+        if (controlId == 6 and value == 1):
+            print("A Button - " + str(value))
+            self.aCommand.run()
 
     def stop(self):
         print("OI Stop")

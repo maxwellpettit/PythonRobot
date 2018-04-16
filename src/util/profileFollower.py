@@ -36,7 +36,7 @@ class ProfileFollower():
 
             # Feed back
             leftOutput = self.leftPid.calculate(leftSetpoint.distance, leftDistance, leftSetpoint.velocity)
-            rightOutput = self.leftPid.calculate(rightSetpoint.distance, rightDistance, rightSetpoint.velocity)
+            rightOutput = self.rightPid.calculate(rightSetpoint.distance, rightDistance, rightSetpoint.velocity)
 
             # Feed forward
             leftOutput += self.kV * leftSetpoint.velocity + self.kA * leftSetpoint.acceleration

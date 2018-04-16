@@ -3,7 +3,7 @@
 import datetime, threading, time, traceback
 from drive import Drive
 from operatorInterface import OperatorInterface
-from commands import ApproachCommand, StopCommand
+from commands import ApproachCommand, StopCommand, EncoderCommand
 
 class Robot():
 
@@ -21,6 +21,9 @@ class Robot():
 
         stopCommand = StopCommand(self)
         self.oi.setBCommand(stopCommand)
+
+        aCommand = EncoderCommand(self.drive, 12)
+        self.oi.setACommand(aCommand)
 
     def update(self):
         self.drive.update()
