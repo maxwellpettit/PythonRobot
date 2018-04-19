@@ -3,7 +3,7 @@
 import datetime, threading, time, traceback
 from drive import Drive
 from operatorInterface import OperatorInterface
-from commands import ApproachCommand, StopCommand, EncoderCommand
+from commands import SonicCommand, StopCommand, EncoderCommand
 
 class Robot():
 
@@ -16,7 +16,7 @@ class Robot():
         self.oi = OperatorInterface()
         self.drive = Drive(self.oi)
 
-        xCommand = ApproachCommand(self.drive, 12)
+        xCommand = SonicCommand(self.drive, 12)
         self.oi.setXCommand(xCommand)
 
         stopCommand = StopCommand(self)

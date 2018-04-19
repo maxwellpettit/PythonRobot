@@ -1,8 +1,8 @@
 #!/bin/python
 
-from util import PidController, SonicFollower
+from control import PidController, SonicFollower
 
-class ApproachCommand():
+class SonicCommand():
 
     def __init__(self, drive, distance):
         self.drive = drive

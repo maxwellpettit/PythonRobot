@@ -19,27 +19,14 @@ class Drive():
 
     driveMode = MANUAL
 
-    x = 0
-    y = 0
-    z = 0
-
     def __init__(self, oi):
         self.oi = oi
         self.board = RRB3(self.BATTERY_VOLTS, self.MOTOR_VOLTS)
         self.leftEncoder = Encoder(19)
         self.rightEncoder = Encoder(26)
-        #self.gyro = mpu6050(0x68)
 
     def update(self):
-        #gyro_data = self.gyro.get_gyro_data()
-        #self.x += gyro_data["x"]
-        #self.y += gyro_data["y"]
-        #self.z += gyro_data["z"]
-        #print("Gyro: " + str(self.x) + ", " + str(self.y) + ", " + str(self.z))
         if (self.driveMode == self.MANUAL):
-            #leftDistance = self.leftEncoder.getInches()
-            #rightDistance = self.rightEncoder.getInches()
-            #print("Distance = (" + str(leftDistance) + ", " + str(rightDistance) + ") inches")
             self.tankDrive(self.oi.getLeft(), self.oi.getRight())
         elif (self.driveMode == self.SONIC):
             output = self.calculateSonic()
@@ -76,23 +63,28 @@ class Drive():
         return leftOutput, rightOutput
 
     def tankDrive(self, left, right):
-        self.board.set_motors(self.constrain(left), int(left >= 0), self.constrain(right), int(right >= 0))
+        self.board.set_motors(self.constrain(left), self.sign(left), self.constrain(right), self.sign(right))
         self.leftEncoder.setDirection(left)
         self.rightEncoder.setDirection(right)
 
     # Limit motor output to range [self.DEADBAND, self.MAX_OUTPUT]
     def constrain(self, output):
         if (output == 0):
-             return 0
+            return 0
         else:
-             return max(self.clamp(output), self.DEADBAND)
+            output = abs(output)
+            if (output > self.MAX_OUTPUT):
+                return self.MAX_OUTPUT
+            else:
+                return max(output, self.DEADBAND)
 
-    def clamp(self, output):
-        output = abs(output)
-        if (output > self.MAX_OUTPUT):
-            return self.MAX_OUTPUT
-        else:
-            return output
+    def sign(self, input): 
+        if (input == 0):
+            return 0
+        elif (input > 0): 
+            return 1
+        elif (input < 0):
+            return -1
 
     def stop(self):
         print("Drive Stop")

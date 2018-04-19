@@ -1,6 +1,6 @@
 #!/bin/python
 
-from util import PidController, EncoderFollower
+from control import PidController, EncoderFollower
 
 class EncoderCommand():
 

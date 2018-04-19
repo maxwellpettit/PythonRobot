@@ -13,22 +13,17 @@ class RRB3:
     LEFT_PWM_PIN = 24
     LEFT_1_PIN = 17
     LEFT_2_PIN = 4
-    SW1_PIN = 11
-    SW2_PIN = 9
     LED1_PIN = 8
     LED2_PIN = 7
-    OC1_PIN = 22
-    OC2_PIN = 27
-    OC2_PIN_R1 = 21
-    OC2_PIN_R2 = 27
     TRIGGER_PIN = 18
     ECHO_PIN = 23
+    
     left_pwm = 0
     right_pwm = 0
     pwm_scale = 0
 
-    old_left_dir = -1
-    old_right_dir = -1
+    old_left_dir = 0
+    old_right_dir = 0
 
     def __init__(self, battery_voltage=9.0, motor_voltage=6.0, revision=2):
 
@@ -55,22 +50,13 @@ class RRB3:
         GPIO.setup(self.LED1_PIN, GPIO.OUT)
         GPIO.setup(self.LED2_PIN, GPIO.OUT)
 
-        GPIO.setup(self.OC1_PIN, GPIO.OUT)
-        if revision == 1:
-            self.OC2_PIN = self.OC2_PIN_R1
-        else:
-            self.OC2_PIN = self.OC2_PIN_R2
-
-        GPIO.setup(self.OC2_PIN_R2, GPIO.OUT)
-
-        GPIO.setup(self.SW1_PIN, GPIO.IN)
-        GPIO.setup(self.SW2_PIN, GPIO.IN)
         GPIO.setup(self.TRIGGER_PIN, GPIO.OUT)
         GPIO.setup(self.ECHO_PIN, GPIO.IN)
 
     def set_motors(self, left_pwm, left_dir, right_pwm, right_dir):
-        if self.old_left_dir != left_dir or self.old_right_dir != right_dir:
-            self.set_driver_pins(0, 0, 0, 0)    # stop motors between sudden changes of direction
+        # Stop motors between sudden changes of direction
+        if ((self.old_left_dir != left_dir and self.old_left_dir != 0) or (self.old_right_dir != right_dir and self.old_left_dir != 0)):
+            self.set_driver_pins(0, 0, 0, 0)
             time.sleep(self.MOTOR_DELAY)
         self.set_driver_pins(left_pwm, left_dir, right_pwm, right_dir)
         self.old_left_dir = left_dir
@@ -78,32 +64,20 @@ class RRB3:
 
     def set_driver_pins(self, left_pwm, left_dir, right_pwm, right_dir):
         self.left_pwm.ChangeDutyCycle(left_pwm * 100 * self.pwm_scale)
-        GPIO.output(self.LEFT_1_PIN, left_dir)
-        GPIO.output(self.LEFT_2_PIN, not left_dir)
+        GPIO.output(self.LEFT_1_PIN, left_dir > 0)
+        GPIO.output(self.LEFT_2_PIN, left_dir < 0)
         self.right_pwm.ChangeDutyCycle(right_pwm * 100 * self.pwm_scale)
-        GPIO.output(self.RIGHT_1_PIN, right_dir)
-        GPIO.output(self.RIGHT_2_PIN, not right_dir)
+        GPIO.output(self.RIGHT_1_PIN, right_dir > 0)
+        GPIO.output(self.RIGHT_2_PIN, right_dir < 0)
 
     def stop(self):
         self.set_motors(0, 0, 0, 0)
-
-    def sw1_closed(self):
-        return not GPIO.input(self.SW1_PIN)
-
-    def sw2_closed(self):
-        return not GPIO.input(self.SW2_PIN)
 
     def set_led1(self, state):
         GPIO.output(self.LED1_PIN, state)
 
     def set_led2(self, state):
         GPIO.output(self.LED2_PIN, state)
-
-    def set_oc1(self, state):
-        GPIO.output(self.OC1_PIN, state)
-
-    def set_oc2(self, state):
-        GPIO.output(self.OC2_PIN, state)
 
     def _send_trigger_pulse(self):
         GPIO.output(self.TRIGGER_PIN, True)

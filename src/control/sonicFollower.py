@@ -1,6 +1,6 @@
 #!/bin/python
 
-from util import PidController
+from control import PidController
 
 class SonicFollower():
 
