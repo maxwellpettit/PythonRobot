@@ -1,6 +1,6 @@
 import time
 import math
-import mpu6050
+from hardware import mpu6050
 
 # Sensor initialization
 mpu = mpu6050.MPU6050()

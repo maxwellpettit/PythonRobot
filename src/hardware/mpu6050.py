@@ -8,7 +8,7 @@ from math import atan, atan2, sqrt
 pass
 
 # Custom Imports
-from pycomms import PyComms
+from hardware import PyComms
 
 class MPU6050:
     # Register map based on Jeff Rowberg <jeff@rowberg.net> source code at
