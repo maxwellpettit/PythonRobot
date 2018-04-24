@@ -1,9 +1,9 @@
 import time
 import math
-from hardware import mpu6050
+from hardware import MPU6050
 
 # Sensor initialization
-mpu = mpu6050.MPU6050()
+mpu = MPU6050()
 mpu.dmpInitialize()
 mpu.setDMPEnabled(True)
 
