@@ -5,8 +5,6 @@ import time
 
 class RRB3:
 
-    MOTOR_DELAY = 0.05
-
     RIGHT_PWM_PIN = 14
     RIGHT_1_PIN = 10
     RIGHT_2_PIN = 25
@@ -55,9 +53,10 @@ class RRB3:
 
     def set_motors(self, left_pwm, left_dir, right_pwm, right_dir):
         # Stop motors between sudden changes of direction
-        if ((self.old_left_dir != left_dir and self.old_left_dir != 0) or (self.old_right_dir != right_dir and self.old_left_dir != 0)):
-            self.set_driver_pins(0, 0, 0, 0)
-            time.sleep(self.MOTOR_DELAY)
+        if (self.old_left_dir > 0 and left_dir < 0 or self.old_left_dir < 0 and left_dir > 0):
+            left_pwm = 0
+        if (self.old_right_dir > 0 and right_dir < 0 or self.old_right_dir < 0 and right_dir > 0):
+            right_pwm = 0
         self.set_driver_pins(left_pwm, left_dir, right_pwm, right_dir)
         self.old_left_dir = left_dir
         self.old_right_dir = right_dir

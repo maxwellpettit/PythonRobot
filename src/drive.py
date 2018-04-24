@@ -67,8 +67,11 @@ class Drive():
         self.leftEncoder.setDirection(left)
         self.rightEncoder.setDirection(right)
 
-    # Limit motor output to range [self.DEADBAND, self.MAX_OUTPUT]
     def constrain(self, output):
+        """
+        Limit motor output to range [self.DEADBAND, self.MAX_OUTPUT]
+        """
+        
         if (output == 0):
             return 0
         else:
@@ -79,12 +82,12 @@ class Drive():
                 return max(output, self.DEADBAND)
 
     def sign(self, input): 
-        if (input == 0):
-            return 0
-        elif (input > 0): 
+        if (input > 0): 
             return 1
         elif (input < 0):
             return -1
+        else:
+            return 0
 
     def stop(self):
         print("Drive Stop")

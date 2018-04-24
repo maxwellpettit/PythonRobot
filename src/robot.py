@@ -50,8 +50,11 @@ class Robot():
                 self.stop()
 
 
-# Main function that initializes the robot and periodically updates the robot
 def main():
+    """
+    Main function that initializes the robot and periodically updates the robot
+    """
+    
     robot = Robot()
 
     updateThread = threading.Thread(target=robot.periodic)

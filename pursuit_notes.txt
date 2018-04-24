@@ -1,0 +1,46 @@
+State Estimator:
+
+x = 0.0
+y = 0.0
+heading = 0.0
+
+prevLeftDistance = 0.0
+prevRightDistance = 0.0
+
+update(leftDistance, rightDistance, heading):
+    centerDistance = (leftDistance - prevLeftDistance + rightDistance - prevRightDistance) / 2
+    
+    # Approximate X, Y coordinates using right triangle
+    self.x += centerDistance * math.cos(heading)
+    self.y += centerDistance * math.sin(heading)
+
+    self.heading = heading
+    self.prevLeftDistance = leftDistance
+    self.prevRightDistance = rightDistance
+
+
+Path Calculation:
+    
+    Basic Phyisics:
+        # velocity = omega * radius
+        
+    Basic Kinematics:
+        # http://www8.cs.umu.se/research/ifor/IFORnav/reports/rapport_MartinL.pdf
+        # omega = (rightVelocity - leftVelocity) / wheelBase
+        # radius = D^2 / (2 * deltaX)
+    
+    Lookahead Calculation:
+        # http://mathworld.wolfram.com/Circle-LineIntersection.html
+        # Find first segment where distance to end from current position < lookahead distance
+        # Find intersection(s) between circle with radius = lookahead and path segment
+        # Return (x, y) of intersection point closest to segment start
+
+    Output Kinematics:
+        # ? radius = lookahead
+        # ? radius = (deltaX^2 + deltaY^2) / (2 * deltaX)
+        # omega = desiredVelocity / radius
+        # deltaV = omega * wheelBase
+        # leftVelocity = desiredVelocity - deltaV
+        # rightVelocity = desiredVelocity + deltaV
+    
+
