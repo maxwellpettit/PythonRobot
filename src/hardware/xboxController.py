@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 # Martin O'Hanlon
 # www.stuffaboutcode.com
 # A class for reading values from an xbox controller

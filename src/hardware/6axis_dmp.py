@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 import time
 import math
 from hardware import MPU6050

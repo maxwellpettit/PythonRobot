@@ -1,4 +1,4 @@
-#!/bin/python
+#!/usr/bin/python3
 
 from control import PidController, EncoderFollower
 

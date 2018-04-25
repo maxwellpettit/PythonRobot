@@ -1,4 +1,4 @@
-#!/bin/python
+#!/usr/bin/python3
 
 import datetime, threading, time, traceback
 from drive import Drive

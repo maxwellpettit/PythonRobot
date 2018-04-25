@@ -1,4 +1,4 @@
-#!/bin/python
+#!/usr/bin/python3
 
 import time
 from hardware import RRB3, Encoder #, mpu6050
