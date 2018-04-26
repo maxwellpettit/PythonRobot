@@ -25,7 +25,7 @@ class Controller():
     'ABS_GAS' - Right Trigger - (0, 255)
     'ABS_BRAKE' - Left Trigger - (0, 255)
     'ABS_HAT0X' - D-Pad X - (-1, 1)
-    'ABS_HAT0Y' - D-Pad Y - (-1,1)
+    'ABS_HAT0Y' - D-Pad Y - (-1, 1)
     """
 
     MAX_JOYSTICK = 32767
