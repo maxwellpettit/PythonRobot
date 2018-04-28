@@ -15,7 +15,8 @@ class Drive():
     MANUAL = 0
     SONIC = 1
     ENCODER = 2
-    PROFILE = 3
+    GYRO = 3
+    PROFILE = 4
 
     driveMode = MANUAL
 
@@ -37,6 +38,9 @@ class Drive():
         elif (self.driveMode == self.ENCODER):
             left, right = self.calculateEncoder()
             self.tankDrive(left, right)
+        elif (self.driveMode == self.GYRO):
+            output = self.calculateGyro()
+            self.tankDrive(output, -output)
 
     def setSonicFollower(self, follower):
         self.driveMode = self.SONIC
@@ -64,6 +68,18 @@ class Drive():
         if (self.follower.done):
             self.driveMode = self.MANUAL
         return leftOutput, rightOutput
+
+    def setGyroFollower(self, follower):
+        self.driveMode = self.GYRO
+        self.follower = follower
+
+    def calculateGyro(self):
+        angle = self.gyro.yaw
+        print("Yaw: " + str(angle))
+        output = self.follower.calculate(angle)
+        if (self.follower.done):
+            self.driveMode = self.MANUAL
+        return output
 
     def tankDrive(self, left, right):
         self.board.set_motors(self.constrain(left), self.sign(left), self.constrain(right), self.sign(right))

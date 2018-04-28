@@ -6,6 +6,8 @@ from hardware import MPU6050
 
 class Gyro():
 
+    yaw = 0
+
     # Sensor initialization
     def __init__(self):
         self.mpu = MPU6050()
@@ -42,16 +44,14 @@ class Gyro():
             g = self.mpu.dmpGetGravity(q)
             ypr = self.mpu.dmpGetYawPitchRoll(q, g)
 
-            yaw = ypr['yaw'] * 180 / math.pi
-            pitch = ypr['pitch'] * 180 / math.pi
-            roll = ypr['roll'] * 180 / math.pi
+            self.yaw = ypr['yaw'] * 180 / math.pi
+            # pitch = ypr['pitch'] * 180 / math.pi
+            # roll = ypr['roll'] * 180 / math.pi
             
-            print("Yaw: " + str(yaw))
-            print("Pitch: " + str(pitch))
-            print("Roll: " + str(roll))
+            # print("Yaw: " + str(self.yaw))
+            # print("Pitch: " + str(pitch))
+            # print("Roll: " + str(roll))
 
             # track FIFO count here in case there is > 1 packet available
             # (this lets us immediately read more without waiting for an interrupt)        
             fifoCount -= self.packetSize
-
-            return yaw, pitch, roll
