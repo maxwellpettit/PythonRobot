@@ -8,7 +8,7 @@ from commands import SonicCommand, StopCommand, EncoderCommand
 class Robot():
 
     # 100 ms update loop (stable)
-    PERIODIC_DELAY = 0.1
+    PERIODIC_DELAY = 0.05
 
     stopped = False
 
