@@ -5,7 +5,7 @@ from time import sleep
 from math import atan, atan2, sqrt
 
 # Custom Imports
-from . import PyComms
+from hardware import PyComms
 
 class MPU6050:
     # Register map based on Jeff Rowberg <jeff@rowberg.net> source code at
