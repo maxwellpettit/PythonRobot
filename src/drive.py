@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
 import time
-from hardware import RRB3, Encoder
+from hardware import RRB3, Encoder, Gyro
 from operatorInterface import OperatorInterface
 
 class Drive():
@@ -24,8 +24,11 @@ class Drive():
         self.board = RRB3(self.BATTERY_VOLTS, self.MOTOR_VOLTS)
         self.leftEncoder = Encoder(19)
         self.rightEncoder = Encoder(26)
+        self.gyro = Gyro()
 
     def update(self):
+        self.gyro.update()
+
         if (self.driveMode == self.MANUAL):
             self.tankDrive(self.oi.getLeft(), self.oi.getRight())
         elif (self.driveMode == self.SONIC):
