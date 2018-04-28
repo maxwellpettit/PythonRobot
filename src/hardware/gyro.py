@@ -48,7 +48,7 @@ class Gyro():
             # pitch = ypr['pitch'] * 180 / math.pi
             # roll = ypr['roll'] * 180 / math.pi
             
-            # print("Yaw: " + str(self.yaw))
+            print("Rec Yaw: " + str(self.yaw))
             # print("Pitch: " + str(pitch))
             # print("Roll: " + str(roll))
 
