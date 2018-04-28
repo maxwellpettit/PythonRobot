@@ -3,12 +3,6 @@
 # Python Standard Library Imports
 import smbus
 
-# External Imports
-pass
-
-# Custom Imports
-pass
-
 # ===========================================================================
 # PyComms I2C Base Class (an rewriten Adafruit_I2C pythone class clone)
 # ===========================================================================
