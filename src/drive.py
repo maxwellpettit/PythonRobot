@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
 import time
-from hardware import RRB3, Encoder #, mpu6050
+from hardware import RRB3, Encoder
 from operatorInterface import OperatorInterface
 
 class Drive():
