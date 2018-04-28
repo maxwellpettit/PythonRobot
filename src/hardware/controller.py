@@ -30,26 +30,33 @@ class Controller():
 
     MAX_JOYSTICK = 32767
 
-    left = 0
-    right = 0
+    commands = {}
+
+    leftY = 0
+    rightY = 0
 
     def __init__(self, port=0):
         self.xbox = evdev.InputDevice('/dev/input/event' + str(port))
-        asyncio.ensure_future(self.print_events(self.xbox))
+        asyncio.ensure_future(self.handleEvent(self.xbox))
 
-    async def print_events(self, device):
+    def bindCommand(self, button, command):
+        code = evdev.ecodes.ecodes[button]
+        self.commands[code] = command
+
+    async def handleEvent(self, device):
         async for event in device.async_read_loop():
             if (event.type == evdev.ecodes.EV_KEY):
                 btnEvent = evdev.categorize(event)
                 if (btnEvent.keystate == evdev.KeyEvent.key_down):
-                    if (event.code == evdev.ecodes.ecodes['BTN_A']):
-                        pass
+                    if (event.code in self.commands):
+                        print("Running Command")
+                        self.commands[event.code].run()
 
             elif (event.type == evdev.ecodes.EV_ABS):
                 if (event.code == evdev.ecodes.ecodes['ABS_Y']):
-                    self.left = event.value / -self.MAX_JOYSTICK
+                    self.leftY = event.value / -self.MAX_JOYSTICK
                 elif (event.code == evdev.ecodes.ecodes['ABS_RY']):
-                    self.right = event.value / -self.MAX_JOYSTICK
+                    self.rightY = event.value / -self.MAX_JOYSTICK
 
     def start(self, loop):
         self.loop = loop
@@ -69,12 +76,12 @@ if __name__ == '__main__':
 
     time.sleep(10)
 
-    print("Left: " + str(xbox.left))
-    print("Right: " + str(xbox.right))
+    print("Left: " + str(xbox.leftY))
+    print("Right: " + str(xbox.rightY))
 
     time.sleep(10)
 
-    print("Left: " + str(xbox.left))
-    print("Right: " + str(xbox.right))
+    print("Left: " + str(xbox.leftY))
+    print("Right: " + str(xbox.rightY))
 
     xbox.stop()

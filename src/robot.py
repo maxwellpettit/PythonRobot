@@ -16,14 +16,14 @@ class Robot():
         self.oi = OperatorInterface()
         self.drive = Drive(self.oi)
 
+        aCommand = EncoderCommand(self.drive, 24)
+        self.oi.bindCommand('BTN_A', aCommand)
+
         xCommand = SonicCommand(self.drive, 12)
-        self.oi.setXCommand(xCommand)
+        self.oi.bindCommand('BTN_X', xCommand)
 
         stopCommand = StopCommand(self)
-        self.oi.setBCommand(stopCommand)
-
-        aCommand = EncoderCommand(self.drive, 24)
-        self.oi.setACommand(aCommand)
+        self.oi.bindCommand('BTN_B', stopCommand)
 
     def update(self):
         self.drive.update()
