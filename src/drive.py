@@ -9,7 +9,7 @@ class Drive():
     BATTERY_VOLTS = 9
     MOTOR_VOLTS = 6
 
-    DEADBAND = 0.2
+    DEADBAND = 0.3
     MAX_OUTPUT = 1
 
     MANUAL = 0

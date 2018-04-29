@@ -4,7 +4,7 @@ from control import PidController
 
 class GyroFollower():
 
-    DEGREE_TOLERANCE = 5
+    DEGREE_TOLERANCE = 2
 
     kP = 0.01
     kI = 0
