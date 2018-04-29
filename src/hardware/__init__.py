@@ -4,3 +4,5 @@ from .controller import Controller
 from .pycomms import PyComms
 from .mpu6050 import MPU6050
 from .gyro import Gyro
+from .simpleMpu6050 import SimpleMpu6050
+from .simpleGyro import SimpleGyro

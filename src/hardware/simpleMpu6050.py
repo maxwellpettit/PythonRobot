@@ -9,7 +9,7 @@ import smbus
 import math
 import time
 
-class mpu6050:
+class SimpleMpu6050:
 
     # Global Variables
     GRAVITIY_MS2 = 9.80665
@@ -236,7 +236,7 @@ class mpu6050:
         return [accel, gyro, temp]
 
 if __name__ == "__main__":
-    mpu = mpu6050(0x68)
+    mpu = SimpleMpu6050(0x68)
 
     offset = 0.75
 

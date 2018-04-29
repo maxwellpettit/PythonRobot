@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
 import time
-from hardware import RRB3, Encoder, Gyro
+from hardware import RRB3, Encoder, SimpleGyro
 from operatorInterface import OperatorInterface
 
 class Drive():
@@ -25,7 +25,7 @@ class Drive():
         self.board = RRB3(self.BATTERY_VOLTS, self.MOTOR_VOLTS)
         self.leftEncoder = Encoder(19)
         self.rightEncoder = Encoder(26)
-        self.gyro = Gyro()
+        self.gyro = SimpleGyro()
 
     def update(self):
         self.gyro.update()
