@@ -17,13 +17,12 @@ class SimpleGyro():
         self.lastTime = time.time()
 
     def update(self):
-        gyroData = self.mpu.get_gyro_data()
-        gz = gyroData['z']
+        try:
+            gyroData = self.mpu.get_gyro_data()
+            t = time.time()
+            
+            self.yaw += (gyroData['z'] - self.GYRO_Z_OFFSET) * (t - self.lastTime)
+            self.lastTime = t
 
-        t = time.time()
-        self.yaw += (gz - self.GYRO_Z_OFFSET) * (t - self.lastTime)
-
-        # print("gz = " + str(gz))
-        # print("Yaw = " + str(self.yaw))
-
-        self.lastTime = t
+        except:
+            print("I2C Read Error")
