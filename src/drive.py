@@ -40,7 +40,7 @@ class Drive():
             self.tankDrive(left, right)
         elif (self.driveMode == self.GYRO):
             output = self.calculateGyro()
-            self.tankDrive(-output, output)
+            self.tankDrive(output, -output)
 
     def setSonicFollower(self, follower):
         self.driveMode = self.SONIC
