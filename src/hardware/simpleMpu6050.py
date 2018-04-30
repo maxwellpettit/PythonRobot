@@ -234,39 +234,3 @@ class SimpleMpu6050:
         gyro = self.get_gyro_data()
 
         return [accel, gyro, temp]
-
-if __name__ == "__main__":
-    mpu = SimpleMpu6050(0x68)
-
-    offset = 0.75
-
-    last_time = time.time()
-    yaw = 0
-
-    while(1):
-        #print(mpu.get_temp())
-
-        accel_data = mpu.get_accel_data()
-        ax = accel_data['x']
-        ay = accel_data['y']
-        az =accel_data['z']
-        gyro_data = mpu.get_gyro_data()
-        gx = gyro_data['x']
-        gy = gyro_data['y']
-        gz = gyro_data['z']
-
-        # if (az != 0.0 and ax != 0 and ay != 0):
-        #    roll = math.degrees(math.atan(ax / math.sqrt(ay**2 + az**2)))
-        #    pitch = math.degrees(math.atan(ay / math.sqrt(ax**2 + az**2)))
-        #    yaw = math.degrees(math.atan(az / math.sqrt(ax**2 + az**2)))
-
-        #    print("roll = " + str(roll) + ", pitch = " + str(pitch) + ", yaw = " + str(yaw))
-
-        t = time.time()
-        yaw += (gz - offset) * (t - last_time)
-
-        print("gz = " + str(gz))
-        print("Yaw = " + str(yaw))
-
-        last_time = t
-        time.sleep(0.1)

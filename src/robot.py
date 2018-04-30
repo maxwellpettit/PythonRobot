@@ -7,7 +7,7 @@ from commands import SonicCommand, StopCommand, EncoderCommand, GyroCommand
 
 class Robot():
 
-    # 100 ms update loop (stable)
+    # 100 ms update (stable frequency) / 50 ms update (maximum frequency)
     PERIODIC_DELAY = 0.05
 
     stopped = False
@@ -15,7 +15,9 @@ class Robot():
     def __init__(self):
         self.oi = OperatorInterface()
         self.drive = Drive(self.oi)
+        self.bindCommands()
 
+    def bindCommands(self):
         aCommand = EncoderCommand(self.drive, 24)
         self.oi.bindCommand('BTN_A', aCommand)
 

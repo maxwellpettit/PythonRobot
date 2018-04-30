@@ -55,7 +55,6 @@ class Controller():
                 btnEvent = evdev.categorize(event)
                 if (btnEvent.keystate == evdev.KeyEvent.key_down):
                     if (event.code in self.callbacks):
-                        print("Running Callback")
                         self.callbacks[event.code]()
 
             elif (event.type == evdev.ecodes.EV_ABS):
@@ -74,24 +73,6 @@ class Controller():
         self.loop.run_forever()
 
     def stop(self):
+        print("Controller Stop")
         asyncio.gather(*asyncio.Task.all_tasks()).cancel()
         self.loop.stop()
-
-
-if __name__ == '__main__':
-    xbox = Controller()
-    loop = asyncio.get_event_loop()
-    t = threading.Thread(target=xbox.start, args=(loop,))
-    t.start()
-
-    time.sleep(10)
-
-    print("Left: " + str(xbox.leftY))
-    print("Right: " + str(xbox.rightY))
-
-    time.sleep(10)
-
-    print("Left: " + str(xbox.leftY))
-    print("Right: " + str(xbox.rightY))
-
-    xbox.stop()
