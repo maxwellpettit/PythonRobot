@@ -15,9 +15,9 @@ class EncoderFollower():
     def __init__(self, target):
         self.target = target
         self.leftPid = PidController(self.kP, self.kI, self.kD, False)
-        self.leftPid.THRESHOLD = self.INCHES_PER_TICK / target
+        self.leftPid.THRESHOLD = abs(self.INCHES_PER_TICK / target)
         self.rightPid = PidController(self.kP, self.kI, self.kD, False)
-        self.rightPid.THRESHOLD = self.INCHES_PER_TICK / target
+        self.rightPid.THRESHOLD = abs(self.INCHES_PER_TICK / target)
 
     def calculate(self, leftDistance, rightDistance):
         # Feed back
