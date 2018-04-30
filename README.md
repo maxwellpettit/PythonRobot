@@ -30,6 +30,4 @@ https://www.monkmakes.com/pi-rover/
 
 https://github.com/simonmonk/raspirobotboard3
 
-https://github.com/cTn-dev/PyComms
-
 https://github.com/Tijndagamer/mpu6050
