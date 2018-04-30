@@ -20,27 +20,49 @@ update(leftDistance, rightDistance, heading):
 
 
 Path Calculation:
+
+    Algorithm:
+        1. Obtain current position of the vehicle
+        2. Find the goal point:
+            ? 2.1. Calculate the point on the path closest to the vehicle (xc, yc)
+            ? 2.2. Compute a certain look-ahead distance D
+            ? 2.3. Obtain goal point by moving distance D up the path from point (xc,yc)
+        3. Transform goal point to vehicle coordinates
+        4. Compute desired curvature of the vehicle γ = 2∆x/D2
+        5. Move vehicle towards goal point with the desired curvature
+        6. Obtain new position and go to point 2
     
     Basic Phyisics:
-        # velocity = omega * radius
+        velocity = omega * radius
         
     Basic Kinematics:
-        # http://www8.cs.umu.se/research/ifor/IFORnav/reports/rapport_MartinL.pdf
-        # omega = (rightVelocity - leftVelocity) / wheelBase
-        # radius = D^2 / (2 * deltaX)
+        https://www.ri.cmu.edu/pub_files/pub3/coulter_r_craig_1992_1/coulter_r_craig_1992_1.pdf
+        http://www8.cs.umu.se/research/ifor/IFORnav/reports/rapport_MartinL.pdf
+        omega = (rightVelocity - leftVelocity) / wheelBase
+        radius = D^2 / (2 * deltaX)
     
-    Lookahead Calculation:
-        # http://mathworld.wolfram.com/Circle-LineIntersection.html
-        # Find first segment where distance to end from current position < lookahead distance
-        # Find intersection(s) between circle with radius = lookahead and path segment
-        # Return (x, y) of intersection point closest to segment start
+    ? Find Closest Point on Path to Vehicle:
+        https://en.wikipedia.org/wiki/Distance_from_a_point_to_a_line
+        Path Segment: ax + by + c = 0
+        Vehicle Position: (x0, y0)
+        x = (b(b*x0 - a*y0) - a*c) / (a^2 + b^2)
+        y = (a(-b*x0 + a*y0) - b*c) / (a^2 + b^2)
+
+    Obtain Goal Point:
+        http://mathworld.wolfram.com/Circle-LineIntersection.html
+        Find first segment where distance to end from current position < lookahead distance
+        Find intersection(s) between circle with radius = lookahead and path segment
+        Return (x, y) of intersection point closest to segment start
+
+    Transform Goal Point to Vehicle Coordinates:
+        xgv = (xg - xv)cos(heading) + (yg - yv)sin(heading)
+        ygv = -(xg - xv)sin(heading) + (yg - yv)cos(heading)
 
     Output Kinematics:
-        # ? radius = lookahead
-        # ? radius = (deltaX^2 + deltaY^2) / (2 * deltaX)
-        # omega = desiredVelocity / radius
-        # deltaV = omega * wheelBase
-        # leftVelocity = desiredVelocity - deltaV
-        # rightVelocity = desiredVelocity + deltaV
+        radius = lookahead / (2 * deltaX)
+        omega = desiredVelocity / radius
+        deltaV = omega * wheelBase
+        leftVelocity = desiredVelocity - deltaV
+        rightVelocity = desiredVelocity + deltaV
     
 
