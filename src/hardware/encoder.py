@@ -28,11 +28,8 @@ class Encoder():
         self.count = 0
         self.direction = 1
 
-    def setDirection(self, input):
-        if (input >= 0):
-            self.direction = 1
-        else:
-            self.direction = -1
+    def setDirection(self, direction):
+        self.direction = direction
 
     def stop(self):
         print("Encoder Stop " + str(self.pin))
