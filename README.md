@@ -25,6 +25,11 @@ https://www.monkmakes.com/pi-rover/
 2. Run the 'run.sh' script
 3. Press 'Ctrl-C' to stop 
 
+## Sensors:
+
+- MPU6050 Gyroscope + Accelerometer
+- HCSR04 Ultrasonic Sensor
+- RB-DFR-668 Motor with Hall Effect Encoder
 
 ## Thanks to the Following GitHub Repositories:
 
