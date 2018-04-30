@@ -12,7 +12,7 @@ class OperatorInterface():
         t.start()
 
     def bindCommand(self, button, command):
-        self.controller.bindCommand(button, command)
+        self.controller.bindCommand(button, command.run)
 
     def getLeft(self):
         return self.controller.leftY

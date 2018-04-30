@@ -4,6 +4,9 @@ import asyncio, evdev, time, threading
 
 class Controller():
     """
+    Requires xboxdrv already running.  Use the command:
+    'sudo xboxdrv -s -d --deadzone 15% --trigger-as-button --dpad-as-button &'
+
     Buttons:
     'BTN_A' - A
     'BTN_B' - B
@@ -30,31 +33,38 @@ class Controller():
 
     MAX_JOYSTICK = 32767
 
-    commands = {}
+    callbacks = {}
 
+    leftX = 0
     leftY = 0
+    rightX = 0
     rightY = 0
 
     def __init__(self, port=0):
         self.xbox = evdev.InputDevice('/dev/input/event' + str(port))
         asyncio.ensure_future(self.handleEvent(self.xbox))
 
-    def bindCommand(self, button, command):
+    def bindCommand(self, button, callback):
         code = evdev.ecodes.ecodes[button]
-        self.commands[code] = command
+        self.callbacks[code] = callback
 
     async def handleEvent(self, device):
         async for event in device.async_read_loop():
+            print(str(event))
             if (event.type == evdev.ecodes.EV_KEY):
                 btnEvent = evdev.categorize(event)
                 if (btnEvent.keystate == evdev.KeyEvent.key_down):
-                    if (event.code in self.commands):
-                        print("Running Command")
-                        self.commands[event.code].run()
+                    if (event.code in self.callbacks):
+                        print("Running Callback")
+                        self.callbacks[event.code]()
 
             elif (event.type == evdev.ecodes.EV_ABS):
-                if (event.code == evdev.ecodes.ecodes['ABS_Y']):
+                if (event.code == evdev.ecodes.ecodes['ABS_X']):
+                    self.leftX = event.value / self.MAX_JOYSTICK
+                elif (event.code == evdev.ecodes.ecodes['ABS_Y']):
                     self.leftY = event.value / -self.MAX_JOYSTICK
+                elif (event.code == evdev.ecodes.ecodes['ABS_RX']):
+                    self.rightX = event.value / self.MAX_JOYSTICK
                 elif (event.code == evdev.ecodes.ecodes['ABS_RY']):
                     self.rightY = event.value / -self.MAX_JOYSTICK
 
