@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-from control import PidController, VelocityFollower
+from control import PidController, VelocityController
 
 class VelocityCommand():
 
@@ -9,4 +9,4 @@ class VelocityCommand():
         self.velocity = velocity
 
     def run(self):
-        self.drive.setVelocityFollower(VelocityFollower(self.velocity))
+        self.drive.setController(VelocityController(self.velocity), self.drive.VELOCITY)

@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-from control import PidController, GyroFollower
+from control import PidController, GyroController
 
 class GyroCommand():
 
@@ -9,4 +9,4 @@ class GyroCommand():
         self.angle = angle
 
     def run(self):
-        self.drive.setGyroFollower(GyroFollower(self.angle))
+        self.drive.setController(GyroController(self.angle), self.drive.GYRO)

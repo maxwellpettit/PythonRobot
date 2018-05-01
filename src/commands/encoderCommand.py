@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-from control import PidController, EncoderFollower
+from control import PidController, EncoderController
 
 class EncoderCommand():
 
@@ -9,4 +9,5 @@ class EncoderCommand():
         self.distance = distance
 
     def run(self):
-        self.drive.setEncoderFollower(EncoderFollower(self.distance))
+        distance = self.distance + (self.drive.leftEncoder.getDistance() + self.drive.rightEncoder.getDistance()) / 2
+        self.drive.setController(EncoderController(distance), self.drive.ENCODER)

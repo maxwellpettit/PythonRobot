@@ -2,7 +2,7 @@
 
 from control import PidController
 
-class GyroFollower():
+class GyroController():
 
     DEGREES_TOLERANCE = 2
 

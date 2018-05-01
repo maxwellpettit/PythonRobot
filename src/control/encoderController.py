@@ -2,21 +2,24 @@
 
 from control import PidController
 
-class SonicFollower():
+class EncoderController():
 
-    kP = 0.2
+    INCHES_TOLERANCE = 0.5
+
+    kP = 0.1
     kI = 0
-    kD = 0.01
+    kD = 0
 
     done = False
 
     def __init__(self, target):
         self.target = target
-        self.pid = PidController(self.kP, self.kI, self.kD, True)
+        self.pid = PidController(self.kP, self.kI, self.kD, False)
+        self.pid.THRESHOLD = abs(self.INCHES_TOLERANCE / target)
 
     def calculate(self, distance):
         output = self.pid.calculate(self.target, distance)
         if (self.pid.done):
             self.done = True
-        
+
         return output

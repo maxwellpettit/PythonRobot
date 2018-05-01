@@ -20,6 +20,7 @@ class Drive():
     PROFILE = 5
 
     driveMode = MANUAL
+    controller = None
 
     def __init__(self, oi):
         self.oi = oi
@@ -37,8 +38,8 @@ class Drive():
             output = self.calculateSonic()
             self.tankDrive(output, output)
         elif (self.driveMode == self.ENCODER):
-            left, right = self.calculateEncoder()
-            self.tankDrive(left, right)
+            output = self.calculateEncoder()
+            self.tankDrive(output, output)
         elif (self.driveMode == self.GYRO):
             output = self.calculateGyro()
             self.tankDrive(-output, output)
@@ -51,54 +52,39 @@ class Drive():
         self.leftEncoder.update()
         self.rightEncoder.update()
 
-    def setSonicFollower(self, follower):
-        self.driveMode = self.SONIC
-        self.follower = follower
+    def setController(self, controller, driveMode):
+        self.controller = controller
+        self.driveMode = driveMode
 
     def calculateSonic(self):
         distance = self.board.get_distance_in()
-        print("Distance = " + str(distance) + " inches")
-        output = self.follower.calculate(distance)
-        if (self.follower.done):
+        print("Distance: " + str(distance))
+        output = self.controller.calculate(distance)
+        if (self.controller.done):
             self.driveMode = self.MANUAL
         return output
 
-    def setEncoderFollower(self, follower):
-        self.leftEncoder.reset()
-        self.rightEncoder.reset()
-        self.driveMode = self.ENCODER
-        self.follower = follower
-
     def calculateEncoder(self):
-        leftDistance = self.leftEncoder.getDistance()
-        rightDistance = self.rightEncoder.getDistance()
-        print("Distance = (" + str(leftDistance) + ", " + str(rightDistance) + ") inches")
-        leftOutput, rightOutput = self.follower.calculate(leftDistance, rightDistance)
-        if (self.follower.done):
+        distance = (self.leftEncoder.getDistance() + self.rightEncoder.getDistance()) / 2
+        print("Distance: " + str(distance))
+        output = self.controller.calculate(distance)
+        if (self.controller.done):
             self.driveMode = self.MANUAL
-        return leftOutput, rightOutput
-
-    def setGyroFollower(self, follower):
-        self.driveMode = self.GYRO
-        self.follower = follower
+        return output
 
     def calculateGyro(self):
         angle = self.gyro.yaw
         print("Yaw: " + str(angle))
-        output = self.follower.calculate(angle)
-        if (self.follower.done):
+        output = self.controller.calculate(angle)
+        if (self.controller.done):
             self.driveMode = self.MANUAL
         return output
-
-    def setVelocityFollower(self, follower):
-        self.driveMode = self.VELOCITY
-        self.follower = follower
 
     def calculateVelocity(self):
         velocity = (self.rightEncoder.velocity + self.leftEncoder.velocity) / 2
         print("Velocity: " + str(velocity))
-        output = self.follower.calculate(velocity)
-        if (self.follower.done):
+        output = self.controller.calculate(velocity)
+        if (self.controller.done):
             self.driveMode = self.MANUAL
         return output
 

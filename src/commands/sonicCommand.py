@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-from control import PidController, SonicFollower
+from control import PidController, SonicController
 
 class SonicCommand():
 
@@ -9,4 +9,4 @@ class SonicCommand():
         self.distance = distance
 
     def run(self):
-        self.drive.setSonicFollower(SonicFollower(self.distance))
+        self.drive.setController(SonicController(self.distance), self.drive.SONIC)

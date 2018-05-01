@@ -2,7 +2,7 @@
 
 from control import PidController
 
-class VelocityFollower():
+class VelocityController():
 
     # Max velocity in inches per second
     MAX_VELOCITY = 8
