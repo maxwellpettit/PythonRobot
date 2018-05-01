@@ -50,7 +50,6 @@ class Controller():
 
     async def handleEvent(self, device):
         async for event in device.async_read_loop():
-            print(str(event))
             if (event.type == evdev.ecodes.EV_KEY):
                 btnEvent = evdev.categorize(event)
                 if (btnEvent.keystate == evdev.KeyEvent.key_down):

@@ -27,7 +27,7 @@ class Robot():
         yCommand = GyroCommand(self.drive, 45)
         self.oi.bindCommand('BTN_Y', yCommand)
 
-        bCommand = VelocityCommand(self.drive, 4)
+        bCommand = VelocityCommand(self.drive, 12)
         self.oi.bindCommand('BTN_B', bCommand)
 
         stopCommand = StopCommand(self)

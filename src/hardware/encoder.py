@@ -10,7 +10,7 @@ class Encoder():
     PI = 3.14159265
 
     count = 0
-    direction = 0
+    direction = 1
     velocity = 0
     lastCount = 0
 
@@ -29,11 +29,11 @@ class Encoder():
         dCount = self.count - self.lastCount
         t = time.time()
         self.velocity = self.countToInches(dCount) / (t - self.lastTime)
-        
-        self.lastTime = t
-        self.lastCount = self.count 
 
-        print("Pin " + str(self.pin) + " Velocity = " + str(self.velocity))
+        self.lastTime = t
+        self.lastCount = self.count
+
+        # print("Pin " + str(self.pin) + " Velocity = " + str(self.velocity))
 
     def getDistance(self):
         return self.countToInches(self.count)
@@ -43,13 +43,14 @@ class Encoder():
 
     def reset(self):
         self.count = 0
-        self.direction = 0
+        self.direction = 1
         self.velocity = 0
         self.lastTime = time.time()
         self.lastCount = 0
 
     def setDirection(self, direction):
-        self.direction = direction
+        if (direction != 0):
+            self.direction = direction
 
     def stop(self):
         print("Encoder Stop " + str(self.pin))
