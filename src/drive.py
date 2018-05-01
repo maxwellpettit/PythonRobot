@@ -83,8 +83,8 @@ class Drive():
 
     def tankDrive(self, left, right):
         self.board.set_motors(self.constrain(left), self.sign(left), self.constrain(right), self.sign(right))
-        self.leftEncoder.setDirection(left)
-        self.rightEncoder.setDirection(right)
+        self.leftEncoder.setDirection(self.sign(left))
+        self.rightEncoder.setDirection(self.sign(right))
 
     def constrain(self, output):
         """

@@ -4,7 +4,7 @@ from control import PidController
 
 class GyroFollower():
 
-    DEGREE_TOLERANCE = 2
+    DEGREES_TOLERANCE = 2
 
     kP = 0.01
     kI = 0
@@ -15,7 +15,7 @@ class GyroFollower():
     def __init__(self, target):
         self.target = target
         self.pid = PidController(self.kP, self.kI, self.kD, False)
-        self.pid.THRESHOLD = abs(self.DEGREE_TOLERANCE / target)
+        self.pid.THRESHOLD = abs(self.DEGREES_TOLERANCE / target)
 
     def calculate(self, angle):
         output = self.pid.calculate(self.target, angle)
