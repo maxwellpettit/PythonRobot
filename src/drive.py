@@ -16,7 +16,8 @@ class Drive():
     SONIC = 1
     ENCODER = 2
     GYRO = 3
-    PROFILE = 4
+    VELOCITY = 4
+    PROFILE = 5
 
     driveMode = MANUAL
 
@@ -28,7 +29,7 @@ class Drive():
         self.gyro = SimpleGyro()
 
     def update(self):
-        self.gyro.update()
+        self.updateSensors()
 
         if (self.driveMode == self.MANUAL):
             self.tankDrive(self.oi.getLeft(), self.oi.getRight())
@@ -41,6 +42,14 @@ class Drive():
         elif (self.driveMode == self.GYRO):
             output = self.calculateGyro()
             self.tankDrive(-output, output)
+        elif (self.driveMode == self.VELOCITY):
+            output = self.calculateVelocity()
+            self.tankDrive(output, output)
+
+    def updateSensors(self):
+        self.gyro.update()
+        self.leftEncoder.update()
+        self.rightEncoder.update()
 
     def setSonicFollower(self, follower):
         self.driveMode = self.SONIC
@@ -61,8 +70,8 @@ class Drive():
         self.follower = follower
 
     def calculateEncoder(self):
-        leftDistance = self.leftEncoder.getInches()
-        rightDistance = self.rightEncoder.getInches()
+        leftDistance = self.leftEncoder.getDistance()
+        rightDistance = self.rightEncoder.getDistance()
         print("Distance = (" + str(leftDistance) + ", " + str(rightDistance) + ") inches")
         leftOutput, rightOutput = self.follower.calculate(leftDistance, rightDistance)
         if (self.follower.done):
@@ -77,6 +86,18 @@ class Drive():
         angle = self.gyro.yaw
         print("Yaw: " + str(angle))
         output = self.follower.calculate(angle)
+        if (self.follower.done):
+            self.driveMode = self.MANUAL
+        return output
+
+    def setVelocityFollower(self, follower):
+        self.driveMode = self.VELOCITY
+        self.follower = follower
+
+    def calculateVelocity(self):
+        velocity = (self.rightEncoder.velocity + self.leftEncoder.velocity) / 2
+        print("Velocity: " + str(velocity))
+        output = self.follower.calculate(velocity)
         if (self.follower.done):
             self.driveMode = self.MANUAL
         return output
