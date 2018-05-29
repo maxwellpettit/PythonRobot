@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
-import time
 from hardware import RRB3, Encoder, SimpleGyro
+from control import PoseEstimator
 from operatorInterface import OperatorInterface
 
 class Drive():
@@ -28,6 +28,7 @@ class Drive():
         self.leftEncoder = Encoder(19)
         self.rightEncoder = Encoder(26)
         self.gyro = SimpleGyro()
+        self.poseEstimator = PoseEstimator()
 
     def update(self):
         self.updateSensors()
@@ -51,6 +52,7 @@ class Drive():
         self.gyro.update()
         self.leftEncoder.update()
         self.rightEncoder.update()
+        self.poseEstimator.update(self.leftEncoder.getDistance(), self.rightEncoder.getDistance(), self.gyro.yaw)
 
     def setController(self, controller, driveMode):
         self.controller = controller
@@ -107,10 +109,10 @@ class Drive():
             else:
                 return max(output, self.DEADBAND)
 
-    def sign(self, input): 
-        if (input > 0): 
+    def sign(self, number): 
+        if (number > 0): 
             return 1
-        elif (input < 0):
+        elif (number < 0):
             return -1
         else:
             return 0

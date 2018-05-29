@@ -9,4 +9,4 @@ class GyroCommand():
         self.angle = angle
 
     def run(self):
-        self.drive.setController(GyroController(self.angle), self.drive.GYRO)
+        self.drive.setController(GyroController(self.drive.gyro.yaw + self.angle), self.drive.GYRO)
