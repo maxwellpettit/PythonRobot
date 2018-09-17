@@ -3,7 +3,7 @@
 import datetime, threading, time, traceback
 from drive import Drive
 from operatorInterface import OperatorInterface
-from commands import SonicCommand, StopCommand, EncoderCommand, GyroCommand, VelocityCommand
+from commands import SonicCommand, StopCommand, EncoderCommand, GyroCommand, VelocityCommand, PursuitCommand
 
 class Robot():
 
@@ -32,6 +32,9 @@ class Robot():
 
         stopCommand = StopCommand(self)
         self.oi.bindCommand('BTN_START', stopCommand)
+
+        pursuitCommand = PursuitCommand(self.drive)
+        self.oi.bindCommand('BTN_SELECT', pursuitCommand)
 
     def update(self):
         self.drive.update()

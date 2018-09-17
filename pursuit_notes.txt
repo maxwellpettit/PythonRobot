@@ -50,16 +50,17 @@ Path Calculation:
 
     Obtain Goal Point:
         http://mathworld.wolfram.com/Circle-LineIntersection.html
-        Find first segment where distance to end from current position < lookahead distance
+        Find first segment where distance to end from current position >= lookahead distance
         Find intersection(s) between circle with radius = lookahead and path segment
-        Return (x, y) of intersection point closest to segment start
+        Return (x, y) of intersection point closest to segment end
 
     Transform Goal Point to Vehicle Coordinates:
         xgv = (xg - xv)cos(heading) + (yg - yv)sin(heading)
         ygv = -(xg - xv)sin(heading) + (yg - yv)cos(heading)
 
     Output Kinematics:
-        radius = lookahead / (2 * deltaX)
+        D = distance from vehicle (xv, yv) to (xgv, ygv)
+        radius = D / (2 * xgv)
         omega = desiredVelocity / radius
         deltaV = omega * wheelBase
         leftVelocity = desiredVelocity - deltaV

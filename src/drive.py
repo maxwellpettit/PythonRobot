@@ -2,7 +2,7 @@
 
 from hardware import RRB3, Encoder, SimpleGyro
 from control import PoseEstimator
-from operatorInterface import OperatorInterface
+
 
 class Drive():
 
@@ -18,6 +18,7 @@ class Drive():
     GYRO = 3
     VELOCITY = 4
     PROFILE = 5
+    PURSUIT = 6
 
     driveMode = MANUAL
     controller = None
@@ -47,6 +48,9 @@ class Drive():
         elif (self.driveMode == self.VELOCITY):
             output = self.calculateVelocity()
             self.tankDrive(output, output)
+        elif (self.driveMode == self.PURSUIT):
+            (left, right) = self.calculatePursuit()
+            self.tankDrive(left, right)
 
     def updateSensors(self):
         self.gyro.update()
@@ -90,6 +94,11 @@ class Drive():
             self.driveMode = self.MANUAL
         return output
 
+    def calculatePursuit(self):
+        return self.controller.calculate(self.poseEstimator.poseX, 
+        self.poseEstimator.poseY, self.poseEstimator.poseHeading, 
+        self.leftEncoder.velocity, self.rightEncoder.velocity)
+
     def tankDrive(self, left, right):
         self.board.set_motors(self.constrain(left), self.sign(left), self.constrain(right), self.sign(right))
         self.leftEncoder.setDirection(self.sign(left))
@@ -99,7 +108,6 @@ class Drive():
         """
         Limit motor output to range [self.DEADBAND, self.MAX_OUTPUT]
         """
-        
         if (output == 0):
             return 0
         else:
@@ -109,8 +117,8 @@ class Drive():
             else:
                 return max(output, self.DEADBAND)
 
-    def sign(self, number): 
-        if (number > 0): 
+    def sign(self, number):
+        if (number > 0):
             return 1
         elif (number < 0):
             return -1
