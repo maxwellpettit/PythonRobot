@@ -7,7 +7,7 @@ from control import VelocityController
 
 class PursuitController():
 
-    WHEELBASE = 0.5
+    WHEELBASE = 11
     PID_FREQUENCY = 2
     pidIndex = 0
 
@@ -19,11 +19,13 @@ class PursuitController():
         self.right = VelocityController()
 
     def calculate(self, x, y, heading, leftVelocity, rightVelocity):
+        print('')
+        print('Pose = (' + str(x) + ', ' + str(y) + ')')
+
         left = 0
         right = 0
         if (self.pidIndex % self.PID_FREQUENCY == 0):
             (l, r) = self.update(x, y, heading)
-            print('Velocity = (' + str(l) + ' ' + str(r) + ')')
             left = self.left.calculate(leftVelocity, l)
             right = self.right.calculate(rightVelocity, r)
             self.pidIndex = 1
@@ -64,14 +66,19 @@ class PursuitController():
         deltaV = 0
         if (xgv != 0):
             radius = d / (2 * xgv)
-            # print('radius = ' + str(radius))
             omega = self.velocity / radius
             deltaV = omega * self.WHEELBASE
 
+        print('deltaV = ' + str(deltaV))
         leftVelocity = 0
         rightVelocity = 0
         if (ygv >= 0):
             leftVelocity = self.velocity + deltaV
             rightVelocity = self.velocity - deltaV
+            if (leftVelocity < 0):
+                leftVelocity = 0
+            if (rightVelocity < 0):
+                rightVelocity = 0
 
+        print('Velocity = (' + str(leftVelocity) + ', ' + str(rightVelocity) + ')')
         return (leftVelocity, rightVelocity)

@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-import math
+from math import cos, sin, radians
 
 class PoseEstimator():
 
@@ -11,24 +11,17 @@ class PoseEstimator():
     prevLeftDistance = 0.0
     prevRightDistance = 0.0
 
-    count = 0
-
     def update(self, leftDistance, rightDistance, heading):
 
-        centerDistance = (leftDistance - self.prevLeftDistance + rightDistance - self.prevRightDistance) / 2
+        centerDistance = (leftDistance - self.prevLeftDistance + rightDistance - self.prevRightDistance) / 2.0
 
         # Approximate X, Y coordinates using right triangle
-        self.poseX += centerDistance * math.cos(heading)
-        self.poseY += centerDistance * math.sin(heading)
+        self.poseX += centerDistance * cos(radians(heading))
+        self.poseY += centerDistance * sin(radians(heading))
 
         self.poseHeading = heading
         self.prevLeftDistance = leftDistance
         self.prevRightDistance = rightDistance
 
-        self.count += 1
-        if (self.count == 20):
-            print('Pose: (' + self.poseX + ', ' + self.poseY + ', ' + self.poseHeading + ')')
-            self.count = 0
-            
     def getPose(self):
         return self.poseX, self.poseY, self.poseHeading
