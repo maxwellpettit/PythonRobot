@@ -5,7 +5,7 @@ from pursuit import PathSegment
 
 class Path():
 
-    COMPLETION_TOLERANCE = 0.95
+    COMPLETION_TOLERANCE = 0.98
 
     segments = []
 

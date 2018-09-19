@@ -7,9 +7,9 @@ from control import VelocityController
 class PursuitController():
 
     # Distance between the wheels of the vehicle
-    WHEELBASE = 6
+    WHEELBASE = 7
     # Ratio of velocity PID controller updates to pursuit calculations
-    PID_FREQUENCY = 4
+    PID_FREQUENCY = 2
 
     pidIndex = 0
     done = False
