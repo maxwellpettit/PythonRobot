@@ -9,7 +9,7 @@ class PursuitCommand():
         self.drive = drive
         seg1 = PathSegment(0, 0, 0, 36)
         seg2 = PathSegment(0, 36, 36, 36)
-        seg3 = PathSegment(36, 36, 48, 48))
+        seg3 = PathSegment(36, 36, 48, 48)
         path = Path()
         path.addSegment(seg1)
         path.addSegment(seg2)
