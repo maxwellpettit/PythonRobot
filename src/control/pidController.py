@@ -37,7 +37,7 @@ class PidController():
             error = target - input
             dT = t - self.lastTime
             errorDeriv = 0
-            if (self.lastError != None):
+            if (self.lastError != None and dT != 0):
                 errorDeriv = (error - self.lastError) / dT
             self.errorIntegral += error * dT
 

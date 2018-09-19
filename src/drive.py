@@ -9,7 +9,7 @@ class Drive():
     BATTERY_VOLTS = 9
     MOTOR_VOLTS = 6
 
-    DEADBAND = 0.3
+    DEADBAND = 0.2
     MAX_OUTPUT = 1
 
     MANUAL = 0
@@ -95,9 +95,12 @@ class Drive():
         return output
 
     def calculatePursuit(self):
-        return self.controller.calculate(self.poseEstimator.poseX, 
-        self.poseEstimator.poseY, self.poseEstimator.poseHeading, 
-        self.leftEncoder.velocity, self.rightEncoder.velocity)
+        (left, right) = self.controller.calculate(self.poseEstimator.poseX,
+                                                  self.poseEstimator.poseY, self.poseEstimator.poseHeading,
+                                                  self.leftEncoder.velocity, self.rightEncoder.velocity)
+        if (self.controller.done):
+            self.driveMode = self.MANUAL
+        return (left, right)
 
     def tankDrive(self, left, right):
         self.board.set_motors(self.constrain(left), self.sign(left), self.constrain(right), self.sign(right))

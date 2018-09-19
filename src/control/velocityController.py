@@ -18,7 +18,7 @@ class VelocityController():
     done = False
 
     def __init__(self, target = 0):
-        self.pid = PidController(self.kP, self.kI, self.kD, True, False)
+        self.pid = PidController(self.kP, self.kI, self.kD, False, False)
         self.target = target
 
     def calculate(self, velocity, target = None):

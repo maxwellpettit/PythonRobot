@@ -16,9 +16,28 @@ class PathSegment():
         self.length = self.getDistance(x1, y1, x2, y2)
 
     def calculateStandard(self):
+        """
+        Calculate the standard form for the line segment 
+        (i.e. ax + by + c = 0)
+        """
         self.a = self.y1 - self.y2
         self.b = self.x2 - self.x1
         self.c = -(self.a * self.x1 + self.b * self.y1)
+
+    @staticmethod
+    def getDistance(x1, y1, x2, y2):
+        """
+        Calculate the distance between two points
+        """
+        return sqrt((x2 - x1)**2 + (y2 - y1)**2)
+
+    def dotProduct(self, x, y):
+        """
+        Calculate the dot product of vectors (x-x1, y-y1) and (x2-x1, y2-y1)
+        """
+        dx = x - self.x1
+        dy = y - self.y1
+        return self.dx * dx + self.dy * dy
 
     def findClosestPoint(self, xv, yv):
         """
@@ -28,24 +47,16 @@ class PathSegment():
         den = self.a**2 + self.b**2
         x = (self.b * (self.b * xv - self.a * yv) - self.a * self.c) / den
         y = (self.a * (-self.b * xv + self.a * yv) - self.b * self.c) / den
+
+        # Calculate the percentage completed of the segment
         index = self.dotProduct(x, y) / (self.length**2)
 
         return (x, y, index)
 
-    def dotProduct(self, x, y):
-        dx = x - self.x1
-        dy = y - self.y1
-
-        return self.dx * dx + self.dy * dy
-
-    @staticmethod
-    def getDistance(x1, y1, x2, y2):
-        return sqrt((x2 - x1)**2 + (y2 - y1)**2)
-
-    def findFirstCircleIntersection(self, x, y, radius):
+    def findCircleIntersection(self, x, y, radius):
         """
-        Find first intersection on path segment and a circle with center (x, y)
-        (x, y) = closest point on path to vehicle
+        Find intersection between path segment and a circle. 
+        (x, y) = closest point on path to vehicle, 
         radius = lookahead distance
         http://mathworld.wolfram.com/Circle-LineIntersection.html
         """
@@ -68,15 +79,15 @@ class PathSegment():
             negX = (det * dy - sign * dx * sqrtDiscrim) / dr2 + x
             negY = (-det * dx - abs(dy) * sqrtDiscrim) / dr2 + y
 
-            # print('pos x = ' + str(posX) + ', pos y = ' + str(posY))
-            # print('neg x = ' + str(negX) + ', neg y = ' + str(negY))
-
             posDot = self.dotProduct(posX, posY)
             negDot = self.dotProduct(negX, negY)
 
+            # print('pos x = ' + str(posX) + ', pos y = ' + str(posY))
+            # print('neg x = ' + str(negX) + ', neg y = ' + str(negY))
             # print('posDot = ' + str(posDot))
             # print('negDot = ' + str(negDot))
 
+            # Return the point on the segment closest to the end
             if (posDot < 0 and negDot >= 0):
                 return (negX, negY)
             elif (posDot >= 0 and negDot < 0):
@@ -100,7 +111,7 @@ def main():
     (x, y, index) = seg1.findClosestPoint(0, 0)
     print(str(x) + ' ' + str(y))
 
-    (x, y) = seg1.findFirstCircleIntersection(0, 0, 15)
+    (x, y) = seg1.findCircleIntersection(0, 0, 15)
     print(str(x) + ' ' + str(y))
 
 

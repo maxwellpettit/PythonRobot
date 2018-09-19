@@ -1,9 +1,12 @@
 #!/usr/bin/python3
 
-import datetime, threading, time, traceback
+import threading
+import time
+import traceback
 from drive import Drive
 from operatorInterface import OperatorInterface
 from commands import SonicCommand, StopCommand, EncoderCommand, GyroCommand, VelocityCommand, PursuitCommand
+
 
 class Robot():
 
@@ -45,13 +48,13 @@ class Robot():
         self.oi.stop()
 
     def periodic(self):
-        next = time.time()
+        nextTime = time.time()
         while (not self.stopped):
             try:
                 self.update()
 
-                next = next + self.PERIODIC_DELAY
-                delay = max(0, next - time.time())
+                nextTime = nextTime + self.PERIODIC_DELAY
+                delay = max(0, nextTime - time.time())
                 if (delay == 0):
                     print("--------------THRASH--------------")
                 time.sleep(delay)
@@ -65,7 +68,7 @@ def main():
     """
     Main function that initializes the robot and periodically updates the robot
     """
-    
+
     robot = Robot()
 
     updateThread = threading.Thread(target=robot.periodic)
@@ -83,6 +86,7 @@ def main():
         print("Stopped Via Unknown Exception")
         traceback.print_exc()
         robot.stop()
+
 
 if __name__ == '__main__':
     main()

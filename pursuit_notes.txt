@@ -1,32 +1,11 @@
-State Estimator:
-
-x = 0.0
-y = 0.0
-heading = 0.0
-
-prevLeftDistance = 0.0
-prevRightDistance = 0.0
-
-update(leftDistance, rightDistance, heading):
-    centerDistance = (leftDistance - prevLeftDistance + rightDistance - prevRightDistance) / 2
-    
-    # Approximate X, Y coordinates using right triangle
-    self.x += centerDistance * math.cos(heading)
-    self.y += centerDistance * math.sin(heading)
-
-    self.heading = heading
-    self.prevLeftDistance = leftDistance
-    self.prevRightDistance = rightDistance
-
-
 Path Calculation:
 
     Algorithm:
         1. Obtain current position of the vehicle
         2. Find the goal point:
-            ? 2.1. Calculate the point on the path closest to the vehicle (xc, yc)
-            ? 2.2. Compute a certain look-ahead distance D
-            ? 2.3. Obtain goal point by moving distance D up the path from point (xc,yc)
+            2.1. Calculate the point on the path closest to the vehicle (xc, yc)
+            2.2. Compute a certain look-ahead distance D
+            2.3. Obtain goal point by moving distance D up the path from point (xc,yc)
         3. Transform goal point to vehicle coordinates
         4. Compute desired curvature of the vehicle γ = 2∆x/D2
         5. Move vehicle towards goal point with the desired curvature
@@ -41,7 +20,7 @@ Path Calculation:
         omega = (rightVelocity - leftVelocity) / wheelBase
         radius = D^2 / (2 * deltaX)
     
-    ? Find Closest Point on Path to Vehicle:
+    Find Closest Point on Path to Vehicle:
         https://en.wikipedia.org/wiki/Distance_from_a_point_to_a_line
         Path Segment: ax + by + c = 0
         Vehicle Position: (x0, y0)
@@ -60,7 +39,7 @@ Path Calculation:
 
     Output Kinematics:
         D = distance from vehicle (xv, yv) to (xgv, ygv)
-        radius = D / (2 * xgv)
+        radius = D^2 / (2 * xgv)
         omega = desiredVelocity / radius
         deltaV = omega * wheelBase
         leftVelocity = desiredVelocity - deltaV

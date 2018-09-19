@@ -1,15 +1,18 @@
 #!/usr/bin/python3
 
 from math import cos, sin, radians
-from pursuit import PathSegment
 from control import VelocityController
 
 
 class PursuitController():
 
-    WHEELBASE = 11
-    PID_FREQUENCY = 2
+    # Distance between the wheels of the vehicle
+    WHEELBASE = 6
+    # Ratio of velocity PID controller updates to pursuit calculations
+    PID_FREQUENCY = 4
+
     pidIndex = 0
+    done = False
 
     def __init__(self, path, lookahead, velocity):
         self.path = path
@@ -19,16 +22,22 @@ class PursuitController():
         self.right = VelocityController()
 
     def calculate(self, x, y, heading, leftVelocity, rightVelocity):
+        """
+        Calculate the left/right motor outputs using velocity controllers
+        """
         print('')
         print('Pose = (' + str(x) + ', ' + str(y) + ')')
 
         left = 0
         right = 0
+        # Update output velocity using pure pursuit
         if (self.pidIndex % self.PID_FREQUENCY == 0):
             (l, r) = self.update(x, y, heading)
             left = self.left.calculate(leftVelocity, l)
             right = self.right.calculate(rightVelocity, r)
             self.pidIndex = 1
+
+        # Let velocity controller update to reach target velocity
         else:
             left = self.left.calculate(leftVelocity)
             right = self.right.calculate(rightVelocity)
@@ -36,20 +45,33 @@ class PursuitController():
 
         return (left, right)
 
-    def update(self, x, y, heading):
-        (xg, yg) = self.path.findGoalPoint(x, y, self.lookahead)
+    def update(self, xv, yv, heading):
+        """
+        Calculate the desired left/right linear velocity using pure pursuit
+        https://www.ri.cmu.edu/pub_files/pub3/coulter_r_craig_1992_1/coulter_r_craig_1992_1.pdf
+        http://www8.cs.umu.se/research/ifor/IFORnav/reports/rapport_MartinL.pdf
+        """
+        # Find goal point on path
+        (xg, yg) = self.path.findGoalPoint(xv, yv, self.lookahead)
         print('(xg, yg) = (' + str(xg) + ', ' + str(yg) + ')')
+
         if (xg is not None and yg is not None):
-            (xgv, ygv) = self.transformToVehicle(x, y, xg, yg, heading)
+            # Transform goal point relative to vehicle heading
+            (xgv, ygv) = self.transformToVehicle(xv, yv, xg, yg, heading)
             print('(xgv, ygv) = (' + str(xgv) + ', ' + str(ygv) + ')')
+
+            # Calculate left/right wheel velocity based on goal point
             return self.outputKinematics(xgv, ygv)
+
+        else:
+            self.done = True
 
         return (0, 0)
 
     def transformToVehicle(self, xv, yv, xg, yg, heading):
         """
         Transform goal point to coordinates relative to vehicle's current heading
-        (i.e. treat vehicle heading as the y-axis)
+        (i.e. treat vehicle as (0, 0) with heading as the y-axis)
         """
         heading = radians(heading)
         s = round(sin(heading), 5)
@@ -62,23 +84,22 @@ class PursuitController():
         """
         Calculate left/right velocity based on the transformed goal point
         """
-        d = PathSegment.getDistance(0, 0, xgv, ygv)
+        d2 = xgv**2 + ygv**2
         deltaV = 0
         if (xgv != 0):
-            radius = d / (2 * xgv)
+            radius = d2 / (2 * xgv)
             omega = self.velocity / radius
             deltaV = omega * self.WHEELBASE
 
-        print('deltaV = ' + str(deltaV))
         leftVelocity = 0
         rightVelocity = 0
         if (ygv >= 0):
             leftVelocity = self.velocity + deltaV
             rightVelocity = self.velocity - deltaV
-            if (leftVelocity < 0):
-                leftVelocity = 0
-            if (rightVelocity < 0):
-                rightVelocity = 0
+            # if (leftVelocity < 0):
+            #    leftVelocity = 0
+            # if (rightVelocity < 0):
+            #    rightVelocity = 0
 
         print('Velocity = (' + str(leftVelocity) + ', ' + str(rightVelocity) + ')')
         return (leftVelocity, rightVelocity)
