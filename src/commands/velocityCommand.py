@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-from control import PidController, VelocityController
+from control import VelocityController
 
 class VelocityCommand():
 

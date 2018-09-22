@@ -1,7 +1,6 @@
 #!/usr/bin/python3
 
 import time
-import math
 from hardware import SimpleMpu6050
 
 class SimpleGyro():

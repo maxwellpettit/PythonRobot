@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-from control import PidController, SonicController
+from control import SonicController
 
 class SonicCommand():
 

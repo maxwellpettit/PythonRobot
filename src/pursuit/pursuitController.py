@@ -96,10 +96,6 @@ class PursuitController():
         if (ygv >= 0):
             leftVelocity = self.velocity + deltaV
             rightVelocity = self.velocity - deltaV
-            # if (leftVelocity < 0):
-            #    leftVelocity = 0
-            # if (rightVelocity < 0):
-            #    rightVelocity = 0
 
         print('Velocity = (' + str(leftVelocity) + ', ' + str(rightVelocity) + ')')
         return (leftVelocity, rightVelocity)

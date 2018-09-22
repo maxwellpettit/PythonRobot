@@ -2,8 +2,8 @@ from pursuit import Path, PathSegment, PursuitController
 
 
 def main():
-    #(seg1, seg2, seg3) = path1()
-    (seg1, seg2, seg3) = path2()
+    (seg1, seg2, seg3) = path1()
+    #(seg1, seg2, seg3) = path2()
     path = Path()
     path.addSegment(seg1)
     path.addSegment(seg2)
@@ -14,8 +14,10 @@ def main():
     pursuit.left.pid.kP = 0
     pursuit.right.pid.kP = 0
 
-    # updatePath1(pursuit)
-    updatePath2(pursuit)
+    updatePath1(pursuit)
+    # updatePath2(pursuit)
+
+    #testSegment()
 
 
 def path1():
@@ -29,7 +31,7 @@ def updatePath1(pursuit):
     update(pursuit, 0, 0, 90)
     update(pursuit, 0, 4, 90)
     update(pursuit, 0, 30, 90)
-    update(pursuit, 0, 35, 90)
+    update(pursuit, -1, 35, 90)
     update(pursuit, 4, 36, 0)
     update(pursuit, 30, 36, 0)
 
@@ -52,7 +54,20 @@ def updatePath2(pursuit):
 
 def update(pursuit, x, y, heading):
     (left, right) = pursuit.calculate(x, y, heading, 0, 0)
-    print('Output = (' + str(left) + ' ' + str(right) + ')' + '12341234123412341234444444444444444444444')
+    print('Output = (' + str(left) + ' ' + str(right) + ')')
+
+
+def testSegment():
+    print('')
+
+    seg1 = PathSegment(0, 10, 10, 10)
+    print(str(seg1.a) + ' ' + str(seg1.b) + ' ' + str(seg1.c))
+
+    (x, y, index) = seg1.findClosestPoint(-1, 9)
+    print(str(x) + ' ' + str(y))
+
+    (x, y) = seg1.findCircleIntersection(x, y, 5)
+    print(str(x) + ' ' + str(y) + ' ' + str(index))
 
 
 if __name__ == '__main__':

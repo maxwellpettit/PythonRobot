@@ -52,6 +52,7 @@ class Path():
                 print('Distance to path < lookahead. Removing segment.')
                 self.segments.pop(0)
 
+        # Done when all segments are removed
         return (None, None)
 
     def checkNextSegment(self, xv, yv, x, y, index, segment):

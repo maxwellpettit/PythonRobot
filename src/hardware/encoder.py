@@ -3,6 +3,7 @@
 import time
 import RPi.GPIO as GPIO
 
+
 class Encoder():
 
     WHEEL_DIAMETER = 3.15
@@ -39,7 +40,7 @@ class Encoder():
         return self.countToInches(self.count)
 
     def countToInches(self, count):
-        return(count * self.WHEEL_DIAMETER * self.PI / self.TICKS_PER_REV)
+        return (count * self.WHEEL_DIAMETER * self.PI / self.TICKS_PER_REV)
 
     def reset(self):
         self.count = 0

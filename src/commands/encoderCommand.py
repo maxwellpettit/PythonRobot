@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-from control import PidController, EncoderController
+from control import EncoderController
 
 class EncoderCommand():
 

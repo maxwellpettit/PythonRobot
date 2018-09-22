@@ -82,11 +82,6 @@ class PathSegment():
             posDot = self.dotProduct(posX, posY)
             negDot = self.dotProduct(negX, negY)
 
-            # print('pos x = ' + str(posX) + ', pos y = ' + str(posY))
-            # print('neg x = ' + str(negX) + ', neg y = ' + str(negY))
-            # print('posDot = ' + str(posDot))
-            # print('negDot = ' + str(negDot))
-
             # Return the point on the segment closest to the end
             if (posDot < 0 and negDot >= 0):
                 return (negX, negY)
@@ -102,18 +97,3 @@ class PathSegment():
 
         else:
             return (None, None)
-
-
-def main():
-    seg1 = PathSegment(5, 0, 8, -10)
-    print(str(seg1.a) + ' ' + str(seg1.b) + ' ' + str(seg1.c))
-
-    (x, y, index) = seg1.findClosestPoint(0, 0)
-    print(str(x) + ' ' + str(y))
-
-    (x, y) = seg1.findCircleIntersection(0, 0, 15)
-    print(str(x) + ' ' + str(y))
-
-
-if __name__ == '__main__':
-    main()

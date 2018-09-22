@@ -6,8 +6,7 @@ Copyright (c) 2015, 2016, 2017 MrTijn/Tijndagamer
 """
 
 import smbus
-import math
-import time
+
 
 class SimpleMpu6050:
 
@@ -104,7 +103,7 @@ class SimpleMpu6050:
         # Write the new range to the ACCEL_CONFIG register
         self.bus.write_byte_data(self.address, self.ACCEL_CONFIG, accel_range)
 
-    def read_accel_range(self, raw = False):
+    def read_accel_range(self, raw=False):
         """Reads the range the accelerometer is set to.
         If raw is True, it will return the raw value from the ACCEL_CONFIG
         register
@@ -127,7 +126,7 @@ class SimpleMpu6050:
             else:
                 return -1
 
-    def get_accel_data(self, g = False):
+    def get_accel_data(self, g=False):
         """Gets and returns the X, Y and Z values from the accelerometer.
         If g is True, it will return the data in g
         If g is False, it will return the data in m/s^2
@@ -175,7 +174,7 @@ class SimpleMpu6050:
         # Write the new range to the ACCEL_CONFIG register
         self.bus.write_byte_data(self.address, self.GYRO_CONFIG, gyro_range)
 
-    def read_gyro_range(self, raw = False):
+    def read_gyro_range(self, raw=False):
         """Reads the range the gyroscope is set to.
         If raw is True, it will return the raw value from the GYRO_CONFIG
         register.

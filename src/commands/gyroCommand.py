@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-from control import PidController, GyroController
+from control import GyroController
 
 class GyroCommand():
 

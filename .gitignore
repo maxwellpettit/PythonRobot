@@ -99,5 +99,6 @@ ENV/
 
 # mypy
 .mypy_cache/
-python-robot.code-workspace
 .vscode/settings.json
+
+.save

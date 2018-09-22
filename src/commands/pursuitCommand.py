@@ -1,12 +1,14 @@
 #!/usr/bin/python3
 
-from control import VelocityController
 from pursuit import PathSegment, Path, PursuitController
 
 
 class PursuitCommand():
     def __init__(self, drive):
         self.drive = drive
+        self.createController()
+
+    def createController(self):
         seg1 = PathSegment(0, 0, 0, 30)
         seg2 = PathSegment(0, 30, 20, 30)
         seg3 = PathSegment(20, 30, 20, 50)
@@ -17,4 +19,6 @@ class PursuitCommand():
         self.controller = PursuitController(path, 5, 8)
 
     def run(self):
+        if (self.controller.done):
+            self.createController()
         self.drive.setController(self.controller, self.drive.PURSUIT)
