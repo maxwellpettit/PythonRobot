@@ -35,8 +35,8 @@ Commands are defined in src/robot.py
 - B - Drive forward at 12 inches/second; Uses Hall Effect encoders
 - X - Drive until 12 inches away from object or wall; Uses Ultrasonic distance sensor
 - Y - Turn to an angle of 45 degrees; Uses MPU6050 Gyroscope
-- Start - Exits program
 - Select - Follow path defined in src/commands/PursuitCommand.py; Uses Pure Pursuit
+- Start - Exits program
 
 ## Components/Sensors:
 
