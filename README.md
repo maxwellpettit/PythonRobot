@@ -1,6 +1,6 @@
 # PythonRobot
 
-### Python Robot Project for Raspberry Pi 3B using the Monk Makes RasPiRobot Board V3 
+### Python Robot Project for Raspberry Pi 3B with Pure Pursuit Path Tracking
 
 https://www.monkmakes.com/rrb3/
 
@@ -38,8 +38,9 @@ Commands are defined in src/robot.py
 - Start - Exits program
 - Select - Follow path defined in src/commands/PursuitCommand.py; Uses Pure Pursuit
 
-## Sensors:
+## Components/Sensors:
 
+- Monk Makes RasPiRobot Board V3
 - MPU6050 Gyroscope + Accelerometer
 - HCSR04 Ultrasonic Sensor
 - RB-DFR-668 Motor with Hall Effect Encoder
