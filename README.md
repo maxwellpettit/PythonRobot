@@ -1,6 +1,6 @@
 # PythonRobot
 
-### Python Robot Project for Raspberry Pi 3B with Pure Pursuit Path Tracking
+### Python robot project for Raspberry Pi 3B with Pure Pursuit path tracking
 
 https://www.monkmakes.com/rrb3/
 
