@@ -80,7 +80,7 @@ class RRB3:
 
     def _send_trigger_pulse(self):
         GPIO.output(self.TRIGGER_PIN, True)
-        time.sleep(0.0001)
+        time.sleep(0.00001)
         GPIO.output(self.TRIGGER_PIN, False)
 
     def _wait_for_echo(self, value, timeout):
@@ -91,22 +91,22 @@ class RRB3:
     # TODO: Replace busy wait with GPIO.wait_for_edge
     def get_distance(self):
         self._send_trigger_pulse()
-        self._wait_for_echo(True, 10000)
+        self._wait_for_echo(True, 1000000)
         start = time.time()
-        self._wait_for_echo(False, 10000)
+        self._wait_for_echo(False, 1000000)
         finish = time.time()
         pulse_len = finish - start
-        distance_cm = pulse_len / 0.000058
+        distance_cm = pulse_len * 17150
         return distance_cm
 
     def get_distance_in(self):
         self._send_trigger_pulse()
-        self._wait_for_echo(True, 8000)
+        self._wait_for_echo(True, 1000000)
         start = time.time()
-        self._wait_for_echo(False, 8000)
+        self._wait_for_echo(False, 1000000)
         finish = time.time()
         pulse_len = finish - start
-        distance_in = pulse_len / 0.000148
+        distance_in = pulse_len * 6752
         return distance_in
 
     def cleanup(self):
