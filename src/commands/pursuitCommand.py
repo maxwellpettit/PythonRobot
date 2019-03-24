@@ -9,13 +9,15 @@ class PursuitCommand():
         self.createController()
 
     def createController(self):
-        seg1 = PathSegment(0, 0, 0, 30)
-        seg2 = PathSegment(0, 30, 20, 30)
-        seg3 = PathSegment(20, 30, 20, 50)
+        seg1 = PathSegment(0, 0, 5, 10)
+        seg2 = PathSegment(5, 10, 0, 20)
+        seg3 = PathSegment(0, 20, -5, 30)
+        seg4 = PathSegment(-5, 30, 0, 40)
         path = Path()
         path.addSegment(seg1)
         path.addSegment(seg2)
         path.addSegment(seg3)
+        path.addSegment(seg4)
         self.controller = PursuitController(path, 5, 8)
 
     def run(self):

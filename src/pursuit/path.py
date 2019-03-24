@@ -31,7 +31,7 @@ class Path():
                 # Check if segment is complete
                 self.checkSegmentComplete(index)
 
-                print('Closest (x, y) = (' + str(x) + ', ' + str(y) + ') Index = ' + str(index))
+                # print('Closest (x, y) = (' + str(x) + ', ' + str(y) + ') Index = ' + str(index))
 
                 # Find intersection between path and circle with radius = lookahead
                 return segment.findCircleIntersection(x, y, lookahead)
