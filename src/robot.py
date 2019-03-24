@@ -5,7 +5,6 @@ import time
 import traceback
 from drive import Drive
 from operatorInterface import OperatorInterface
-from commands import SonicCommand, StopCommand, EncoderCommand, GyroCommand, VelocityCommand, PursuitCommand
 
 
 class Robot():
@@ -16,28 +15,9 @@ class Robot():
     stopped = False
 
     def __init__(self):
-        self.oi = OperatorInterface()
-        self.drive = Drive(self.oi)
-        self.bindCommands()
-
-    def bindCommands(self):
-        aCommand = EncoderCommand(self.drive, 24)
-        self.oi.bindCommand('BTN_A', aCommand)
-
-        xCommand = SonicCommand(self.drive, 12)
-        self.oi.bindCommand('BTN_X', xCommand)
-
-        yCommand = GyroCommand(self.drive, 45)
-        self.oi.bindCommand('BTN_Y', yCommand)
-
-        bCommand = VelocityCommand(self.drive, 12)
-        self.oi.bindCommand('BTN_B', bCommand)
-
-        stopCommand = StopCommand(self)
-        self.oi.bindCommand('BTN_START', stopCommand)
-
-        pursuitCommand = PursuitCommand(self.drive)
-        self.oi.bindCommand('BTN_SELECT', pursuitCommand)
+        self.drive = Drive()
+        self.oi = OperatorInterface(self.drive)
+        self.drive.setOperatorInterface(self.oi)
 
     def update(self):
         self.drive.update()

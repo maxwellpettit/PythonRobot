@@ -23,13 +23,15 @@ class Drive():
     driveMode = MANUAL
     controller = None
 
-    def __init__(self, oi):
-        self.oi = oi
+    def __init__(self):
         self.board = RRB3(self.BATTERY_VOLTS, self.MOTOR_VOLTS)
         self.leftEncoder = Encoder(19)
         self.rightEncoder = Encoder(26)
         self.gyro = SimpleGyro()
         self.poseEstimator = PoseEstimator()
+
+    def setOperatorInterface(self, oi):
+        self.oi = oi
 
     def update(self):
         self.updateSensors()
@@ -56,7 +58,8 @@ class Drive():
         self.gyro.update()
         self.leftEncoder.update()
         self.rightEncoder.update()
-        self.poseEstimator.update(self.leftEncoder.getDistance(), self.rightEncoder.getDistance(), self.gyro.yaw)
+        self.poseEstimator.update(self.leftEncoder.getDistance(),
+                                  self.rightEncoder.getDistance(), self.gyro.yaw)
 
     def setController(self, controller, driveMode):
         self.controller = controller
@@ -65,14 +68,17 @@ class Drive():
     def calculateSonic(self):
         distance = self.board.get_distance_in()
         print("Distance: " + str(distance))
+        
         output = self.controller.calculate(distance)
         if (self.controller.done):
             self.driveMode = self.MANUAL
         return output
 
     def calculateEncoder(self):
-        distance = (self.leftEncoder.getDistance() + self.rightEncoder.getDistance()) / 2
+        distance = (self.leftEncoder.getDistance() +
+                    self.rightEncoder.getDistance()) / 2
         print("Distance: " + str(distance))
+        
         output = self.controller.calculate(distance)
         if (self.controller.done):
             self.driveMode = self.MANUAL
@@ -81,6 +87,7 @@ class Drive():
     def calculateGyro(self):
         angle = self.gyro.yaw
         print("Yaw: " + str(angle))
+        
         output = self.controller.calculate(angle)
         if (self.controller.done):
             self.driveMode = self.MANUAL
@@ -89,6 +96,7 @@ class Drive():
     def calculateVelocity(self):
         velocity = (self.rightEncoder.velocity + self.leftEncoder.velocity) / 2
         print("Velocity: " + str(velocity))
+        
         output = self.controller.calculate(velocity)
         if (self.controller.done):
             self.driveMode = self.MANUAL
@@ -103,7 +111,8 @@ class Drive():
         return (left, right)
 
     def tankDrive(self, left, right):
-        self.board.set_motors(self.constrain(left), self.sign(left), self.constrain(right), self.sign(right))
+        self.board.set_motors(self.constrain(left), self.sign(left),
+                              self.constrain(right), self.sign(right))
         self.leftEncoder.setDirection(self.sign(left))
         self.rightEncoder.setDirection(self.sign(right))
 
