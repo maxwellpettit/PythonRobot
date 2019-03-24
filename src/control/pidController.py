@@ -26,7 +26,7 @@ class PidController():
         self.autoComplete = autoComplete
         self.lastTime = time.time()
 
-    def calculate(self, target, input, dOffset = 0):
+    def calculate(self, target, input):
         output = 0
 
         t = time.time()
@@ -41,7 +41,7 @@ class PidController():
                 errorDeriv = (error - self.lastError) / dT
             self.errorIntegral += error * dT
 
-            output = self.sign * (self.kP * error + self.kI * self.errorIntegral + self.kD * (errorDeriv - dOffset))
+            output = self.sign * (self.kP * error + self.kI * self.errorIntegral + self.kD * errorDeriv)
 
             self.lastTime = t
             self.lastError = error
