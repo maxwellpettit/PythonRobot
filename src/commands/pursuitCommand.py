@@ -18,7 +18,7 @@ class PursuitCommand():
         path.addSegment(seg2)
         path.addSegment(seg3)
         path.addSegment(seg4)
-        self.controller = PursuitController(path, 5, 8)
+        self.controller = PursuitController(path, 2, 8)
 
     def run(self):
         if (self.controller.done):
