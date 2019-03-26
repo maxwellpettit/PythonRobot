@@ -2,9 +2,11 @@
 
 import time
 
+
 class PidController():
 
     THRESHOLD = 0.01
+    I_TERM_LIMIT = 1.0
 
     kP = 0
     kI = 0
@@ -17,7 +19,7 @@ class PidController():
 
     done = False
 
-    def __init__(self, kP, kI, kD, flipSign, autoComplete = True):
+    def __init__(self, kP, kI, kD, flipSign=False, autoComplete=True):
         self.kP = kP
         self.kI = kI
         self.kD = kD
@@ -41,7 +43,13 @@ class PidController():
                 errorDeriv = (error - self.lastError) / dT
             self.errorIntegral += error * dT
 
-            output = self.sign * (self.kP * error + self.kI * self.errorIntegral + self.kD * errorDeriv)
+            integral = self.errorIntegral * self.kI
+            if (integral > self.I_TERM_LIMIT):
+                integral = self.I_TERM_LIMIT
+            elif (integral < -self.I_TERM_LIMIT):
+                integral = -self.I_TERM_LIMIT
+
+            output = self.sign * (self.kP * error + integral + self.kD * errorDeriv)
 
             self.lastTime = t
             self.lastError = error
