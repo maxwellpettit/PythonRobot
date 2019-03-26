@@ -2,6 +2,7 @@
 
 from control import PidController
 
+
 class VelocityController():
 
     # Max velocity in inches per second
@@ -17,11 +18,11 @@ class VelocityController():
 
     done = False
 
-    def __init__(self, target = 0):
-        self.pid = PidController(self.kP, self.kI, self.kD, False, False)
+    def __init__(self, target=0):
+        self.pid = PidController(self.kP, self.kI, self.kD, autoComplete=False)
         self.target = target
 
-    def calculate(self, velocity, target = None):
+    def calculate(self, velocity, target=None):
         if (target != None):
             self.target = target
 

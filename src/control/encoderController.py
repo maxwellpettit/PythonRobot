@@ -2,6 +2,7 @@
 
 from control import PidController
 
+
 class EncoderController():
 
     INCHES_TOLERANCE = 0.5
@@ -14,7 +15,7 @@ class EncoderController():
 
     def __init__(self, target):
         self.target = target
-        self.pid = PidController(self.kP, self.kI, self.kD, False)
+        self.pid = PidController(self.kP, self.kI, self.kD)
         self.pid.THRESHOLD = abs(self.INCHES_TOLERANCE / target)
 
     def calculate(self, distance):
